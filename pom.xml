@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.json</groupId>
     <artifactId>json</artifactId>
-    <version>20070829-NING-1.0.0-SNAPSHOT</version>
+    <version>20070829-NING-1.0.0</version>
     <name>JSON (JavaScript Object Notation)</name>
 
     <description>
