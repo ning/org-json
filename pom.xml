@@ -334,4 +334,18 @@
             </plugin>
         </plugins>
     </reporting>
+    <profiles>
+        <profile>
+            <id>pulse-build</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>pulse-build</value>
+                </property>
+            </activation>
+            <build>
+                <finalName>${project.artifactId}-${project.version}</finalName>
+            </build>
+        </profile>
+    </profiles>
 </project>
