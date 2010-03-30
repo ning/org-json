@@ -29,7 +29,7 @@ import java.util.Iterator;
 /**
  * Convert a web browser cookie list string to a JSONObject and back.
  * @author JSON.org
- * @version 3
+ * @version 2008-09-18
  */
 public class CookieList {
 
@@ -72,7 +72,7 @@ public class CookieList {
         boolean      b = false;
         Iterator     keys = o.keys();
         String       s;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while (keys.hasNext()) {
             s = keys.next().toString();
             if (!o.isNull(s)) {

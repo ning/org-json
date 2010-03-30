@@ -53,7 +53,7 @@ import java.util.Map;
  * The generic <code>get()</code> and <code>opt()</code> methods return an
  * object which you can cast or query for type. There are also typed
  * <code>get</code> and <code>opt</code> methods that do type checking and type
- * coersion for you.
+ * coercion for you.
  * <p>
  * The texts produced by the <code>toString</code> methods strictly conform to
  * JSON syntax rules. The constructors are more forgiving in the texts they will
@@ -75,12 +75,10 @@ import java.util.Map;
  *     well as by <code>,</code> <small>(comma)</small>.</li>
  * <li>Numbers may have the <code>0-</code> <small>(octal)</small> or
  *     <code>0x-</code> <small>(hex)</small> prefix.</li>
- * <li>Comments written in the slashshlash, slashstar, and hash conventions
- *     will be ignored.</li>
  * </ul>
 
  * @author JSON.org
- * @version 3
+ * @version 2008-09-18
  */
 public class JSONArray {
 
@@ -380,7 +378,7 @@ public class JSONArray {
      */
     public String join(String separator) throws JSONException {
         int len = length();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < len; i += 1) {
             if (i > 0) {
@@ -870,7 +868,7 @@ public class JSONArray {
             return "[]";
         }
         int i;
-        StringBuffer sb = new StringBuffer("[");
+        StringBuilder sb = new StringBuilder("[");
         if (len == 1) {
             sb.append(JSONObject.valueToString(this.myArrayList.get(0),
                     indentFactor, indent));

@@ -29,7 +29,7 @@ import java.util.Iterator;
 /**
  * Convert an HTTP header to a JSONObject and back.
  * @author JSON.org
- * @version 3
+ * @version 2008-09-18
  */
 public class HTTP {
 
@@ -127,7 +127,7 @@ public class HTTP {
     public static String toString(JSONObject o) throws JSONException {
         Iterator     keys = o.keys();
         String       s;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (o.has("Status-Code") && o.has("Reason-Phrase")) {
             sb.append(o.getString("HTTP-Version"));
             sb.append(' ');

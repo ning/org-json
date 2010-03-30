@@ -34,7 +34,7 @@ SOFTWARE.
  * it. It is used by the JSONObject and JSONArray constructors to parse
  * JSON source strings.
  * @author JSON.org
- * @version 3
+ * @version 2008-09-18
  */
 public class JSONTokener {
 
@@ -207,44 +207,14 @@ public class JSONTokener {
 
 
     /**
-     * Get the next char in the string, skipping whitespace
-     * and comments (slashslash, slashstar, and hash).
+     * Get the next char in the string, skipping whitespace.
      * @throws JSONException
      * @return  A character, or 0 if there are no more characters.
      */
     public char nextClean() throws JSONException {
         for (;;) {
             char c = next();
-            if (c == '/') {
-                switch (next()) {
-                case '/':
-                    do {
-                        c = next();
-                    } while (c != '\n' && c != '\r' && c != 0);
-                    break;
-                case '*':
-                    for (;;) {
-                        c = next();
-                        if (c == 0) {
-                            throw syntaxError("Unclosed comment");
-                        }
-                        if (c == '*') {
-                            if (next() == '/') {
-                                break;
-                            }
-                            back();
-                        }
-                    }
-                    break;
-                default:
-                    back();
-                    return '/';
-                }
-            } else if (c == '#') {
-                do {
-                    c = next();
-                } while (c != '\n' && c != '\r' && c != 0);
-            } else if (c == 0 || c > ' ') {
+            if (c == 0 || c > ' ') {
                 return c;
             }
         }
@@ -264,7 +234,7 @@ public class JSONTokener {
      */
     public String nextString(char quote) throws JSONException {
         char c;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (;;) {
             c = next();
             switch (c) {
@@ -317,7 +287,7 @@ public class JSONTokener {
      * @return   A string.
      */
     public String nextTo(char d) throws JSONException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (;;) {
             char c = next();
             if (c == d || c == 0 || c == '\n' || c == '\r') {
@@ -339,7 +309,7 @@ public class JSONTokener {
      */
     public String nextTo(String delimiters) throws JSONException {
         char c;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (;;) {
             c = next();
             if (delimiters.indexOf(c) >= 0 || c == 0 ||
@@ -387,73 +357,18 @@ public class JSONTokener {
          * formatting character.
          */
 
-        StringBuffer sb = new StringBuffer();
-        char b = c;
+        StringBuilder sb = new StringBuilder();
         while (c >= ' ' && ",:]}/\\\"[{;=#".indexOf(c) < 0) {
             sb.append(c);
             c = next();
         }
         back();
 
-        /*
-         * If it is true, false, or null, return the proper value.
-         */
-
         s = sb.toString().trim();
         if (s.equals("")) {
             throw syntaxError("Missing value");
         }
-        if (s.equalsIgnoreCase("true")) {
-            return Boolean.TRUE;
-        }
-        if (s.equalsIgnoreCase("false")) {
-            return Boolean.FALSE;
-        }
-        if (s.equalsIgnoreCase("null")) {
-            return JSONObject.NULL;
-        }
-
-        /*
-         * If it might be a number, try converting it. We support the 0- and 0x-
-         * conventions. If a number cannot be produced, then the value will just
-         * be a string. Note that the 0-, 0x-, plus, and implied string
-         * conventions are non-standard. A JSON parser is free to accept
-         * non-JSON forms as long as it accepts all correct JSON forms.
-         */
-
-        if ((b >= '0' && b <= '9') || b == '.' || b == '-' || b == '+') {
-            if (b == '0') {
-                if (s.length() > 2 &&
-                        (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {
-                    try {
-                        return new Integer(Integer.parseInt(s.substring(2),
-                                16));
-                    } catch (Exception e) {
-                        /* Ignore the error */
-                    }
-                } else {
-                    try {
-                        return new Integer(Integer.parseInt(s, 8));
-                    } catch (Exception e) {
-                        /* Ignore the error */
-                    }
-                }
-            }
-            try {
-                return new Integer(s);
-            } catch (Exception e) {
-                try {
-                    return new Long(s);
-                } catch (Exception f) {
-                    try {
-                        return new Double(s);
-                    }  catch (Exception g) {
-                        return s;
-                    }
-                }
-            }
-        }
-        return s;
+        return JSONObject.stringToValue(s);
     }
 
 
@@ -484,7 +399,6 @@ public class JSONTokener {
         back();
         return c;
     }
-
 
     /**
      * Make a JSONException to signal a syntax error.

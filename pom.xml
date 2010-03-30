@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.json</groupId>
     <artifactId>json</artifactId>
-    <version>20080701-NING-2.0.</version>
+    <version>20081120-NING-2.0.1-SNAPSHOT</version>
     <name>JSON (JavaScript Object Notation)</name>
 
     <description>
@@ -27,6 +27,38 @@
     <prerequisites>
         <maven>2.0.9</maven>
     </prerequisites>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>5.11</version>
+            <classifier>jdk15</classifier>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- NING SPECIFIC -->
+    <distributionManagement>
+        <!-- use the following if you're not using a snapshot version. -->
+        <repository>
+            <id>dev-repo</id>
+            <name>Ning Internal Repo</name>
+            <url>http://mavenrepo.ningops.net/nexus/content/repositories/libs-releases-local</url>
+        </repository>
+        <!-- use the following if you ARE using a snapshot version. -->
+        <snapshotRepository>
+            <id>dev-repo</id>
+            <name>Ning Internal Snapshot Repo</name>
+            <url>http://mavenrepo.ningops.net/nexus/content/repositories/libs-snapshots-local</url>
+        </snapshotRepository>
+        <!-- for now we don't deploy the site anywhere -->
+        <site>
+            <id>local-site-repo</id>
+            <url>${site.html.dir}</url>
+        </site>
+    </distributionManagement>
+    <!-- NING SPECIFIC -->
 
     <build>
         <finalName>${project.artifactId}-${project.version}-${buildNumber}</finalName>
@@ -68,8 +100,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.4</source>
-                    <target>1.4</target>
+                    <source>1.5</source>
+                    <target>1.5</target>
                     <encoding>UTF-8</encoding>
                     <maxmem>1024m</maxmem>
                 </configuration>
@@ -81,26 +113,24 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <!--
-                <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <executions>
-                <execution>
-                <goals>
-                <goal>test-jar</goal>
-                </goals>
-                </execution>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
                 </executions>
-                </plugin>
-                <plugin>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                <parallel>false</parallel>
+                    <parallel>false</parallel>
                 </configuration>
-                </plugin>
-            -->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -109,7 +139,6 @@
                     <dependencyLocationEnabled>false</dependencyLocationEnabled>
                 </configuration>
             </plugin>
-            <!-- These two add support for git for release:prepare -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -195,8 +224,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.5</version>
                 <configuration>
-                    <source>1.4</source>
-                    <target>1.4</target>
+                    <source>1.5</source>
+                    <target>1.5</target>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
                     <links>
@@ -215,26 +244,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <!-- use the following if you're not using a snapshot version. -->
-        <repository>
-            <id>dev-repo</id>
-            <name>Ning Internal Repo</name>
-            <url>http://mavenrepo.ningops.net/nexus/content/repositories/libs-releases-local</url>
-        </repository>
-        <!-- use the following if you ARE using a snapshot version. -->
-        <snapshotRepository>
-            <id>dev-repo</id>
-            <name>Ning Internal Snapshot Repo</name>
-            <url>http://mavenrepo.ningops.net/nexus/content/repositories/libs-snapshots-local</url>
-        </snapshotRepository>
-        <!-- for now we don't deploy the site anywhere -->
-        <site>
-            <id>local-site-repo</id>
-            <url>${site.html.dir}</url>
-        </site>
-    </distributionManagement>
 
     <reporting>
         <plugins>
@@ -330,7 +339,7 @@
                 <version>2.2.2</version>
                 <configuration>
                     <minSeverity>info</minSeverity>
-                    <comparisonVersion>20070829</comparisonVersion>
+                    <comparisonVersion>20080701</comparisonVersion>
                 </configuration>
             </plugin>
         </plugins>
