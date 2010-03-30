@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.json</groupId>
     <artifactId>json</artifactId>
-    <version>20080701-NING-1.0.0-SNAPSHOT</version>
+    <version>20080701-NING-2.0.</version>
     <name>JSON (JavaScript Object Notation)</name>
 
     <description>
@@ -330,6 +330,7 @@
                 <version>2.2.2</version>
                 <configuration>
                     <minSeverity>info</minSeverity>
+                    <comparisonVersion>20070829</comparisonVersion>
                 </configuration>
             </plugin>
         </plugins>
