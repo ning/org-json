@@ -1,0 +1,10 @@
+.classpath
+.settings
+.project
+target
+pom.xml.releaseBackup
+release.properties
+*~
+temp-testng-customsuite.xml
+test-output
+.externalToolBuilders
