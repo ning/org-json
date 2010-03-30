@@ -33,7 +33,7 @@ SOFTWARE.
 public class HTTPTokener extends JSONTokener {
 
     /**
-     * Construct an XMLTokener from a string.
+     * Construct an HTTPTokener from a string.
      * @param s A source string.
      */
     public HTTPTokener(String s) {
@@ -49,7 +49,7 @@ public class HTTPTokener extends JSONTokener {
     public String nextToken() throws JSONException {
         char c;
         char q;
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         do {
             c = next();
         } while (Character.isWhitespace(c));

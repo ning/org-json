@@ -28,7 +28,7 @@ SOFTWARE.
  * The XMLTokener extends the JSONTokener to provide additional methods
  * for the parsing of XML texts.
  * @author JSON.org
- * @version 2008-09-18
+ * @version 2010-01-30
  */
 public class XMLTokener extends JSONTokener {
 
@@ -63,10 +63,10 @@ public class XMLTokener extends JSONTokener {
     public String nextCDATA() throws JSONException {
         char         c;
         int          i;
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         for (;;) {
             c = next();
-            if (c == 0) {
+            if (end()) {
                 throw syntaxError("Unclosed CDATA");
             }
             sb.append(c);
@@ -91,7 +91,7 @@ public class XMLTokener extends JSONTokener {
      */
     public Object nextContent() throws JSONException {
         char         c;
-        StringBuilder sb;
+        StringBuffer sb;
         do {
             c = next();
         } while (Character.isWhitespace(c));
@@ -101,7 +101,7 @@ public class XMLTokener extends JSONTokener {
         if (c == '<') {
             return XML.LT;
         }
-        sb = new StringBuilder();
+        sb = new StringBuffer();
         for (;;) {
             if (c == '<' || c == 0) {
                 back();
@@ -125,7 +125,7 @@ public class XMLTokener extends JSONTokener {
      * @throws JSONException If missing ';' in XML entity.
      */
     public Object nextEntity(char a) throws JSONException {
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         for (;;) {
             char c = next();
             if (Character.isLetterOrDigit(c) || c == '#') {
@@ -219,7 +219,7 @@ public class XMLTokener extends JSONTokener {
     public Object nextToken() throws JSONException {
         char c;
         char q;
-        StringBuilder sb;
+        StringBuffer sb;
         do {
             c = next();
         } while (Character.isWhitespace(c));
@@ -244,7 +244,7 @@ public class XMLTokener extends JSONTokener {
         case '"':
         case '\'':
             q = c;
-            sb = new StringBuilder();
+            sb = new StringBuffer();
             for (;;) {
                 c = next();
                 if (c == 0) {
@@ -263,7 +263,7 @@ public class XMLTokener extends JSONTokener {
 
 // Name
 
-            sb = new StringBuilder();
+            sb = new StringBuffer();
             for (;;) {
                 sb.append(c);
                 c = next();

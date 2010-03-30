@@ -31,7 +31,7 @@ import java.util.Iterator;
  * This provides static methods to convert an XML text into a JSONObject,
  * and to covert a JSONObject into an XML text.
  * @author JSON.org
- * @version 2008-10-14
+ * @version 2009-12-12
  */
 public class XML {
 
@@ -74,7 +74,7 @@ public class XML {
      * @return The escaped string.
      */
     public static String escape(String string) {
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         for (int i = 0, len = string.length(); i < len; i++) {
             char c = string.charAt(i);
             switch (c) {
@@ -238,7 +238,7 @@ public class XML {
                     if (x.nextToken() != GT) {
                         throw x.syntaxError("Misshaped tag");
                     }
-                    context.accumulate(n, o);
+                    context.accumulate(n, "");
                     return false;
 
 // Content, between <...> and </...>
@@ -325,7 +325,7 @@ public class XML {
      */
     public static String toString(Object o, String tagName)
             throws JSONException {
-        StringBuilder b = new StringBuilder();
+        StringBuffer b = new StringBuffer();
         int          i;
         JSONArray    ja;
         JSONObject   jo;
