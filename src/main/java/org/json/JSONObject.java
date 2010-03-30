@@ -26,12 +26,13 @@ SOFTWARE.
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Collection;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its
@@ -84,7 +85,7 @@ import java.util.Map;
  *     will be ignored.</li>
  * </ul>
  * @author JSON.org
- * @version 2
+ * @version 3
  */
 public class JSONObject {
 
@@ -127,9 +128,9 @@ public class JSONObject {
 
 
     /**
-     * The hash map where the JSONObject's properties are kept.
+     * The map where the JSONObject's properties are kept.
      */
-    private HashMap myHashMap;
+    private Map map;
 
 
     /**
@@ -145,7 +146,7 @@ public class JSONObject {
      * Construct an empty JSONObject.
      */
     public JSONObject() {
-        this.myHashMap = new HashMap();
+        this.map = new HashMap();
     }
 
 
@@ -227,15 +228,31 @@ public class JSONObject {
 
     /**
      * Construct a JSONObject from a Map.
+     * 
      * @param map A map object that can be used to initialize the contents of
      *  the JSONObject.
      */
     public JSONObject(Map map) {
-        this.myHashMap = (map == null) ?
-            new HashMap() :
-            new HashMap(map);
+        this.map = (map == null) ? new HashMap() : map;
     }
 
+    /**
+     * Construct a JSONObject from a Map.
+     * 
+     * Note: Use this constructor when the map contains <key,bean>.
+     * 
+     * @param map - A map with Key-Bean data.
+     * @param includeSuperClass - Tell whether to include the super class properties.
+     */
+    public JSONObject(Map map, boolean includeSuperClass) {
+       	this.map = new HashMap();
+       	if (map != null){
+            for (Iterator i = map.entrySet().iterator(); i.hasNext(); ) {
+                Map.Entry e = (Map.Entry)i.next();
+                this.map.put(e.getKey(), new JSONObject(e.getValue(), includeSuperClass));
+            }
+       	}
+    }
 
     /**
      * Construct a JSONObject from an Object using bean getters.
@@ -257,9 +274,37 @@ public class JSONObject {
      * to make a JSONObject.
      */
     public JSONObject(Object bean) {
-        this();
-        Class klass = bean.getClass();
-        Method[] methods = klass.getMethods();
+    	this();
+        populateInternalMap(bean, false);
+    }
+    
+    
+    /**
+     * Construct JSONObject from the given bean. This will also create JSONObject
+     * for all internal object (List, Map, Inner Objects) of the provided bean.
+     * 
+     * -- See Documentation of JSONObject(Object bean) also.
+     * 
+     * @param bean An object that has getter methods that should be used
+     * to make a JSONObject.
+     * @param includeSuperClass - Tell whether to include the super class properties.
+     */
+    public JSONObject(Object bean, boolean includeSuperClass) {
+    	this();
+        populateInternalMap(bean, includeSuperClass);
+    }
+    
+    private void populateInternalMap(Object bean, boolean includeSuperClass){
+    	Class klass = bean.getClass();
+    	
+        //If klass.getSuperClass is System class then includeSuperClass = false;
+    	
+    	if (klass.getClassLoader() == null) {
+    		includeSuperClass = false;
+    	}
+    	
+    	Method[] methods = (includeSuperClass) ? 
+    			klass.getMethods() : klass.getDeclaredMethods();
         for (int i = 0; i < methods.length; i += 1) {
             try {
                 Method method = methods[i];
@@ -279,15 +324,47 @@ public class JSONObject {
                         key = key.substring(0, 1).toLowerCase() +
                             key.substring(1);
                     }
-                    this.put(key, method.invoke(bean, null));
+                    
+                    Object result = method.invoke(bean, (Object[])null);
+                    if (result == null){
+                    	map.put(key, NULL);
+                    }else if (result.getClass().isArray()) {
+                    	map.put(key, new JSONArray(result,includeSuperClass));
+                    }else if (result instanceof Collection) { //List or Set
+                    	map.put(key, new JSONArray((Collection)result,includeSuperClass));
+                    }else if (result instanceof Map) {
+                    	map.put(key, new JSONObject((Map)result,includeSuperClass));
+                    }else if (isStandardProperty(result.getClass())) { //Primitives, String and Wrapper
+                    	map.put(key, result);
+                    }else{
+                    	if (result.getClass().getPackage().getName().startsWith("java") || 
+                    			result.getClass().getClassLoader() == null) { 
+                    		map.put(key, result.toString());
+                    	} else { //User defined Objects
+                    		map.put(key, new JSONObject(result,includeSuperClass));
+                    	}
+                    }
                 }
             } catch (Exception e) {
-                /* forget about it */
+            	throw new RuntimeException(e);
             }
         }
     }
+    
+    private boolean isStandardProperty(Class clazz) {
+    	return clazz.isPrimitive()                  ||
+    		clazz.isAssignableFrom(Byte.class)      ||
+    		clazz.isAssignableFrom(Short.class)     ||
+    		clazz.isAssignableFrom(Integer.class)   ||
+    		clazz.isAssignableFrom(Long.class)      ||
+    		clazz.isAssignableFrom(Float.class)     ||
+    		clazz.isAssignableFrom(Double.class)    ||
+    		clazz.isAssignableFrom(Character.class) ||
+    		clazz.isAssignableFrom(String.class)    ||
+    		clazz.isAssignableFrom(Boolean.class);
+    }
 
-    /**
+ 	/**
      * Construct a JSONObject from an Object, using reflection to find the
      * public members. The resulting JSONObject's keys will be the strings
      * from the names array, and the values will be the field values associated
@@ -600,7 +677,7 @@ public class JSONObject {
      * @return      true if the key exists in the JSONObject.
      */
     public boolean has(String key) {
-        return this.myHashMap.containsKey(key);
+        return this.map.containsKey(key);
     }
 
 
@@ -622,7 +699,7 @@ public class JSONObject {
      * @return An iterator of the keys.
      */
     public Iterator keys() {
-        return this.myHashMap.keySet().iterator();
+        return this.map.keySet().iterator();
     }
 
 
@@ -632,7 +709,7 @@ public class JSONObject {
      * @return The number of keys in the JSONObject.
      */
     public int length() {
-        return this.myHashMap.size();
+        return this.map.size();
     }
 
 
@@ -685,7 +762,7 @@ public class JSONObject {
      * @return      An object which is the value, or null if there is no value.
      */
     public Object opt(String key) {
-        return key == null ? null : this.myHashMap.get(key);
+        return key == null ? null : this.map.get(key);
     }
 
 
@@ -977,7 +1054,7 @@ public class JSONObject {
         }
         if (value != null) {
             testValidity(value);
-            this.myHashMap.put(key, value);
+            this.map.put(key, value);
         } else {
             remove(key);
         }
@@ -1075,9 +1152,18 @@ public class JSONObject {
      * or null if there was no value.
      */
     public Object remove(String key) {
-        return this.myHashMap.remove(key);
+        return this.map.remove(key);
     }
-
+   
+    /**
+     * Get an enumeration of the keys of the JSONObject.
+     * The keys will be sorted alphabetically.
+     *
+     * @return An iterator of the keys.
+     */
+    public Iterator sortedKeys() {
+      return new TreeSet(this.map.keySet()).iterator();
+    }
 
     /**
      * Throw an exception if the object is an NaN or infinite number.
@@ -1144,7 +1230,7 @@ public class JSONObject {
                 Object o = keys.next();
                 sb.append(quote(o.toString()));
                 sb.append(':');
-                sb.append(valueToString(this.myHashMap.get(o)));
+                sb.append(valueToString(this.map.get(o)));
             }
             sb.append('}');
             return sb.toString();
@@ -1185,12 +1271,12 @@ public class JSONObject {
      * @throws JSONException If the object contains an invalid number.
      */
     String toString(int indentFactor, int indent) throws JSONException {
-        int          i;
-        int          n = length();
+        int j;
+        int n = length();
         if (n == 0) {
             return "{}";
         }
-        Iterator     keys = keys();
+        Iterator     keys = sortedKeys();
         StringBuffer sb = new StringBuffer("{");
         int          newindent = indent + indentFactor;
         Object       o;
@@ -1198,7 +1284,7 @@ public class JSONObject {
             o = keys.next();
             sb.append(quote(o.toString()));
             sb.append(": ");
-            sb.append(valueToString(this.myHashMap.get(o), indentFactor,
+            sb.append(valueToString(this.map.get(o), indentFactor,
                     indent));
         } else {
             while (keys.hasNext()) {
@@ -1208,17 +1294,17 @@ public class JSONObject {
                 } else {
                     sb.append('\n');
                 }
-                for (i = 0; i < newindent; i += 1) {
+                for (j = 0; j < newindent; j += 1) {
                     sb.append(' ');
                 }
                 sb.append(quote(o.toString()));
                 sb.append(": ");
-                sb.append(valueToString(this.myHashMap.get(o), indentFactor,
+                sb.append(valueToString(this.map.get(o), indentFactor,
                         newindent));
             }
             if (sb.length() > 1) {
                 sb.append('\n');
-                for (i = 0; i < indent; i += 1) {
+                for (j = 0; j < indent; j += 1) {
                     sb.append(' ');
                 }
             }
@@ -1361,7 +1447,7 @@ public class JSONObject {
                 Object k = keys.next();
                 writer.write(quote(k.toString()));
                 writer.write(':');
-                Object v = this.myHashMap.get(k);
+                Object v = this.map.get(k);
                 if (v instanceof JSONObject) {
                     ((JSONObject)v).write(writer);
                 } else if (v instanceof JSONArray) {

@@ -3,7 +3,7 @@ package org.json;
 /**
  * The JSONException is thrown by the JSON.org classes then things are amiss.
  * @author JSON.org
- * @version 2
+ * @version 3
  */
 public class JSONException extends Exception {
     private Throwable cause;

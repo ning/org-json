@@ -29,6 +29,7 @@ import java.io.Writer;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -79,7 +80,7 @@ import java.util.Map;
  * </ul>
 
  * @author JSON.org
- * @version 2
+ * @version 3
  */
 public class JSONArray {
 
@@ -104,7 +105,13 @@ public class JSONArray {
      */
     public JSONArray(JSONTokener x) throws JSONException {
         this();
-        if (x.nextClean() != '[') {
+        char c = x.nextClean();
+        char q;
+        if (c == '[') {
+            q = ']';
+        } else if (c == '(') {
+            q = ')';
+        } else {
             throw x.syntaxError("A JSONArray text must start with '['");
         }
         if (x.nextClean() == ']') {
@@ -119,7 +126,8 @@ public class JSONArray {
                 x.back();
                 this.myArrayList.add(x.nextValue());
             }
-            switch (x.nextClean()) {
+            c = x.nextClean();
+            switch (c) {
             case ';':
             case ',':
                 if (x.nextClean() == ']') {
@@ -128,6 +136,10 @@ public class JSONArray {
                 x.back();
                 break;
             case ']':
+            case ')':
+                if (q != c) {
+                    throw x.syntaxError("Expected a '" + new Character(q) + "'");
+                }
                 return;
             default:
                 throw x.syntaxError("Expected a ',' or ']'");
@@ -158,7 +170,23 @@ public class JSONArray {
             new ArrayList(collection);
     }
 
+    /**
+     * Construct a JSONArray from a collection of beans.
+     * The collection should have Java Beans.
+     * 
+     * @throws JSONException If not an array.
+     */
 
+    public JSONArray(Collection collection,boolean includeSuperClass) {
+		this.myArrayList = new ArrayList();
+		if(collection != null) {
+			for (Iterator iter = collection.iterator(); iter.hasNext();) {
+				this.myArrayList.add(new JSONObject(iter.next(),includeSuperClass));	
+			}
+		}
+    }
+
+    
     /**
      * Construct a JSONArray from an array
      * @throws JSONException If not an array.
@@ -175,7 +203,26 @@ public class JSONArray {
         }
     }
 
+    /**
+     * Construct a JSONArray from an array with a bean.
+     * The array should have Java Beans.
+     * 
+     * @throws JSONException If not an array.
+     */
+    public JSONArray(Object array,boolean includeSuperClass) throws JSONException {
+        this();
+        if (array.getClass().isArray()) {
+            int length = Array.getLength(array);
+            for (int i = 0; i < length; i += 1) {
+                this.put(new JSONObject(Array.get(array, i),includeSuperClass));
+            }
+        } else {
+            throw new JSONException("JSONArray initial value should be a string or collection or array.");
+        }
+    }
 
+    
+    
     /**
      * Get the object value associated with an index.
      * @param index

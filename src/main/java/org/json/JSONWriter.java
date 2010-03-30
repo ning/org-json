@@ -54,7 +54,7 @@ SOFTWARE.
  * <p>
  * This can sometimes be easier than using a JSONObject to build a string.
  * @author JSON.org
- * @version 2
+ * @version 3
  */
 public class JSONWriter {
     private static final int maxdepth = 20;
