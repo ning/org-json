@@ -9,7 +9,7 @@ import org.json.JSONString;
  *  construct a JSONObject. It also demonstrates constructing
  *  a JSONObject with an array of names.
  */
-class Obj implements JSONString {
+public class Obj implements JSONString {
     public String aString;
     public double aNumber;
     public boolean aBoolean;
