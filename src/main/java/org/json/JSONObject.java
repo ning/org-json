@@ -158,13 +158,10 @@ public class JSONObject {
      * @throws JSONException
      * @exception JSONException If a value is a non-finite number or if a name is duplicated.
      */
-    public JSONObject(JSONObject jo, String[] names) {
+    public JSONObject(JSONObject jo, String[] names) throws JSONException {
         this();
         for (int i = 0; i < names.length; i += 1) {
-            try {
-                putOnce(names[i], jo.opt(names[i]));
-            } catch (Exception ignore) {
-            }
+            putOnce(names[i], jo.opt(names[i]));
         }
     }
 
@@ -243,11 +240,29 @@ public class JSONObject {
             Iterator i = map.entrySet().iterator();
             while (i.hasNext()) {
                 Map.Entry e = (Map.Entry)i.next();
-                this.map.put(e.getKey(), wrap(e.getValue()));
+                this.map.put(e.getKey(), wrap(e.getValue(), false));
             }
         }
     }
 
+
+    /**
+     * Construct a JSONObject from a Map.
+     *
+     * Note: Use this constructor when the map contains <key,bean>.
+     *
+     * @param map - A map with Key-Bean data.
+     * @param includeSuperClass - Tell whether to include the super class properties.
+     */
+    public JSONObject(Map map, boolean includeSuperClass) {
+           this.map = new LinkedHashMap();
+           if (map != null){
+            for (Iterator i = map.entrySet().iterator(); i.hasNext(); ) {
+                Map.Entry e = (Map.Entry)i.next();
+                this.map.put(e.getKey(), new JSONObject(e.getValue(), includeSuperClass));
+            }
+           }
+    }
 
     /**
      * Construct a JSONObject from an Object using bean getters.
@@ -270,9 +285,71 @@ public class JSONObject {
      */
     public JSONObject(Object bean) {
         this();
-        populateMap(bean);
+        populateInternalMap(bean, false);
     }
 
+
+    /**
+     * Construct JSONObject from the given bean. This will also create JSONObject
+     * for all internal object (List, Map, Inner Objects) of the provided bean.
+     *
+     * -- See Documentation of JSONObject(Object bean) also.
+     *
+     * @param bean An object that has getter methods that should be used
+     * to make a JSONObject.
+     * @param includeSuperClass - Tell whether to include the super class properties.
+     */
+    public JSONObject(Object bean, boolean includeSuperClass) {
+        this();
+        populateInternalMap(bean, includeSuperClass);
+    }
+
+    private void populateInternalMap(Object bean, boolean includeSuperClass) {
+        Class klass = bean.getClass();
+
+// If klass is a System class then set includeSuperClass to false.
+
+        if (klass.getClassLoader() == null) {
+            includeSuperClass = false;
+        }
+
+        Method[] methods = (includeSuperClass) ?
+                klass.getMethods() : klass.getDeclaredMethods();
+        for (int i = 0; i < methods.length; i += 1) {
+            try {
+                Method method = methods[i];
+                if (Modifier.isPublic(method.getModifiers())) {
+                    String name = method.getName();
+                    String key = "";
+                    if (name.startsWith("get")) {
+                        if (name.equals("getClass") ||
+                                name.equals("getDeclaringClass")) {
+                            key = "";
+                        } else {
+                            key = name.substring(3);
+                        }
+                    } else if (name.startsWith("is")) {
+                        key = name.substring(2);
+                    }
+                    if (key.length() > 0 &&
+                            Character.isUpperCase(key.charAt(0)) &&
+                            method.getParameterTypes().length == 0) {
+                        if (key.length() == 1) {
+                            key = key.toLowerCase();
+                        } else if (!Character.isUpperCase(key.charAt(1))) {
+                            key = key.substring(0, 1).toLowerCase() +
+                                key.substring(1);
+                        }
+
+                        Object result = method.invoke(bean, (Object[])null);
+
+                        map.put(key, wrap(result, includeSuperClass));
+                    }
+                }
+            } catch (Exception ignore) {
+            }
+        }
+    }
 
     /**
      * Construct a JSONObject from an Object, using reflection to find the
@@ -900,50 +977,6 @@ public class JSONObject {
     }
 
 
-    private void populateMap(Object bean) {
-        Class klass = bean.getClass();
-
-// If klass is a System class then set includeSuperClass to false.
-
-        boolean includeSuperClass = klass.getClassLoader() != null;
-
-        Method[] methods = (includeSuperClass) ?
-                klass.getMethods() : klass.getDeclaredMethods();
-        for (int i = 0; i < methods.length; i += 1) {
-            try {
-                Method method = methods[i];
-                if (Modifier.isPublic(method.getModifiers())) {
-                    String name = method.getName();
-                    String key = "";
-                    if (name.startsWith("get")) {
-                        if (name.equals("getClass") ||
-                                name.equals("getDeclaringClass")) {
-                            key = "";
-                        } else {
-                            key = name.substring(3);
-                        }
-                    } else if (name.startsWith("is")) {
-                        key = name.substring(2);
-                    }
-                    if (key.length() > 0 &&
-                            Character.isUpperCase(key.charAt(0)) &&
-                            method.getParameterTypes().length == 0) {
-                        if (key.length() == 1) {
-                            key = key.toLowerCase();
-                        } else if (!Character.isUpperCase(key.charAt(1))) {
-                            key = key.substring(0, 1).toLowerCase() +
-                                key.substring(1);
-                        }
-
-                        Object result = method.invoke(bean, (Object[])null);
-
-                        map.put(key, wrap(result));
-                    }
-                }
-            } catch (Exception ignore) {
-            }
-        }
-    }
 
 
     /**
@@ -1505,7 +1538,7 @@ public class JSONObject {
       * @param object The object to wrap
       * @return The wrapped value
       */
-     static Object wrap(Object object) {
+     static Object wrap(Object object, boolean includeSuperClass) {
          try {
              if (object == null) {
                  return NULL;
@@ -1520,13 +1553,13 @@ public class JSONObject {
              }
 
              if (object instanceof Collection) {
-                 return new JSONArray((Collection)object);
+                 return new JSONArray((Collection)object, includeSuperClass);
              }
              if (object.getClass().isArray()) {
-                 return new JSONArray(object);
+                 return new JSONArray(object, includeSuperClass);
              }
              if (object instanceof Map) {
-                 return new JSONObject((Map)object);
+                 return new JSONObject((Map)object, includeSuperClass);
              }
              Package objectPackage = object.getClass().getPackage();
              String objectPackageName = ( objectPackage != null ? objectPackage.getName() : "" );
@@ -1535,7 +1568,7 @@ public class JSONObject {
                      object.getClass().getClassLoader() == null) {
                  return object.toString();
              }
-             return new JSONObject(object);
+             return new JSONObject(object, includeSuperClass);
          } catch(Exception exception) {
              return null;
          }
