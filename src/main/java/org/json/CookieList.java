@@ -74,7 +74,7 @@ public class CookieList {
         String       s;
         StringBuffer sb = new StringBuffer();
         while (keys.hasNext()) {
-            s = keys.next().toString();
+            s = keys.next();
             if (!o.isNull(s)) {
                 if (b) {
                     sb.append(';');

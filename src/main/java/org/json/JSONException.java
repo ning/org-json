@@ -5,7 +5,7 @@ package org.json;
  * @author JSON.org
  * @version 2008-09-18
  */
-public class JSONException extends Exception {
+public class JSONException extends RuntimeException {
     /**
      *
      */
@@ -19,6 +19,11 @@ public class JSONException extends Exception {
     public JSONException(String message) {
         super(message);
     }
+
+    public JSONException(String message, Throwable t) {
+        super(message, t);
+    }
+
 
     public JSONException(Throwable t) {
         super(t.getMessage());

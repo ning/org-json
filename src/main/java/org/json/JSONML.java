@@ -329,7 +329,7 @@ public class JSONML {
 
             keys = jo.keys();
             while (keys.hasNext()) {
-                k = keys.next().toString();
+                k = keys.next();
                 XML.noSpace(k);
                 v = jo.optString(k);
                 if (v != null) {
@@ -409,7 +409,7 @@ public class JSONML {
 
         keys = jo.keys();
         while (keys.hasNext()) {
-            k = keys.next().toString();
+            k = keys.next();
             if (!k.equals("tagName") && !k.equals("childNodes")) {
                 XML.noSpace(k);
                 v = jo.optString(k);

@@ -157,8 +157,8 @@ public class JSONWriter {
      */
     private JSONWriter end(char m, char c) throws JSONException {
         if (this.mode != m) {
-            throw new JSONException(m == 'a' ? "Misplaced endArray." : 
-            		"Misplaced endObject.");
+            throw new JSONException(m == 'a' ? "Misplaced endArray." :
+                    "Misplaced endObject.");
         }
         this.pop(m);
         try {
@@ -295,7 +295,7 @@ public class JSONWriter {
      * @throws JSONException If the number is not finite.
      */
     public JSONWriter value(double d) throws JSONException {
-        return this.value(new Double(d));
+        return this.value(Double.valueOf(d));
     }
 
     /**
