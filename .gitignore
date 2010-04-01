@@ -8,3 +8,4 @@ release.properties
 temp-testng-customsuite.xml
 test-output
 .externalToolBuilders
+.fbprefs
