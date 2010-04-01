@@ -77,9 +77,9 @@ public final class JsonAssert
 
                 Assert.assertEquals(message + "(JSONObject size is different)", left.length(), right.length());
 
-                for (Iterator actIt = left.sortedKeys(),expIt = right.sortedKeys() ; actIt.hasNext() && expIt.hasNext(); ) {
-                    String leftKey = actIt.next().toString();
-                    String rightKey = expIt.next().toString();
+                for (Iterator<String> actIt = left.sortedKeys(),expIt = right.sortedKeys() ; actIt.hasNext() && expIt.hasNext(); ) {
+                    String leftKey = actIt.next();
+                    String rightKey = expIt.next();
 
                     Assert.assertEquals(message + " (Keys differ)", leftKey, rightKey);
 

@@ -45,6 +45,7 @@ public class Obj implements JSONString {
             JSONObject.doubleToString(this.aNumber) + "}";
     }
 
+    @Override
     public String toString() {
         return this.getString() + " " + this.getNumber() + " " +
             this.isBoolean() + "." + this.getBENT() + " " + this.getX();

@@ -17,7 +17,7 @@ public class TestKeyOrdering extends TestCase
         obj.put("five", 5);
         obj.put("six", 6);
 
-        final Iterator it = obj.keys();
+        final Iterator<String> it = obj.keys();
         String key;
         int val;
 

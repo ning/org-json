@@ -29,6 +29,7 @@ import org.json.test.JsonAssert;
  */
 public class TestSuite extends TestCase
 {
+    @Override
     protected void setUp()
     {
         XMLUnit.setNormalize(true);
@@ -1451,8 +1452,8 @@ public class TestSuite extends TestCase
 
     public void testAccumulateCollections() throws Exception
     {
-        final Collection c = null;
-        final Map m = null;
+        final Collection<Object> c = null;
+        final Map<String, Object> m = null;
 
         final JSONObject j = new JSONObject(m);
         final JSONArray a = new JSONArray(c);
