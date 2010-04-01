@@ -55,7 +55,7 @@ public class CDL {
     private static String getValue(JSONTokener x) throws JSONException {
         char c;
         char q;
-        StringBuffer sb;
+        StringBuilder sb;
         do {
             c = x.next();
         } while (c == ' ' || c == '\t');
@@ -64,18 +64,18 @@ public class CDL {
             return null;
         case '"':
         case '\'':
-        	q = c;
-        	sb = new StringBuffer();
-        	for (;;) {
-        		c = x.next();
-        		if (c == q) {
-        			break;
-        		}
+            q = c;
+            sb = new StringBuilder();
+            for (;;) {
+                c = x.next();
+                if (c == q) {
+                    break;
+                }
                 if (c == 0 || c == '\n' || c == '\r') {
                     throw x.syntaxError("Missing close quote '" + q + "'.");
                 }
                 sb.append(c);
-        	}
+            }
             return sb.toString();
         case ',':
             x.back();
@@ -97,12 +97,12 @@ public class CDL {
         for (;;) {
             String value = getValue(x);
             char c = x.next();
-            if (value == null || 
-            		(ja.length() == 0 && value.length() == 0 && c != ',')) {
+            if (value == null ||
+                    (ja.length() == 0 && value.length() == 0 && c != ',')) {
                 return null;
             }
             ja.put(value);
-            for (;;) {                
+            for (;;) {
                 if (c == ',') {
                     break;
                 }
@@ -199,13 +199,13 @@ public class CDL {
 
     /**
      * Produce a comma delimited text row from a JSONArray. Values containing
-     * the comma character will be quoted. Troublesome characters may be 
+     * the comma character will be quoted. Troublesome characters may be
      * removed.
      * @param ja A JSONArray of strings.
      * @return A string ending in NEWLINE.
      */
     public static String rowToString(JSONArray ja) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < ja.length(); i += 1) {
             if (i > 0) {
                 sb.append(',');
@@ -213,16 +213,16 @@ public class CDL {
             Object o = ja.opt(i);
             if (o != null) {
                 String s = o.toString();
-                if (s.length() > 0 && (s.indexOf(',') >= 0 || s.indexOf('\n') >= 0 || 
-                		s.indexOf('\r') >= 0 || s.indexOf(0) >= 0 || 
-                		s.charAt(0) == '"')) {
+                if (s.length() > 0 && (s.indexOf(',') >= 0 || s.indexOf('\n') >= 0 ||
+                        s.indexOf('\r') >= 0 || s.indexOf(0) >= 0 ||
+                        s.charAt(0) == '"')) {
                     sb.append('"');
-                	int length = s.length();
-                	for (int j = 0; j < length; j += 1) {
-                		char c = s.charAt(j);
-                		if (c >= ' ' && c != '"') {
-                			sb.append(c);
-                		}
+                    int length = s.length();
+                    for (int j = 0; j < length; j += 1) {
+                        char c = s.charAt(j);
+                        if (c >= ' ' && c != '"') {
+                            sb.append(c);
+                        }
                     }
                     sb.append('"');
                 } else {
@@ -267,7 +267,7 @@ public class CDL {
         if (names == null || names.length() == 0) {
             return null;
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < ja.length(); i += 1) {
             JSONObject jo = ja.optJSONObject(i);
             if (jo != null) {

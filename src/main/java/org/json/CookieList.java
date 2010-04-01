@@ -72,7 +72,7 @@ public class CookieList {
         boolean      b = false;
         Iterator<String>     keys = o.keys();
         String       s;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while (keys.hasNext()) {
             s = keys.next();
             if (!o.isNull(s)) {
