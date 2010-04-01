@@ -2,13 +2,11 @@ package org.json;
 
 import java.util.Iterator;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
-public class TestKeyOrdering
+public class TestKeyOrdering extends TestCase
 {
-
-    @Test
     public void testSimple() throws Exception
     {
         final JSONObject obj = new JSONObject();
@@ -19,7 +17,7 @@ public class TestKeyOrdering
         obj.put("five", 5);
         obj.put("six", 6);
 
-        final Iterator<?> it = obj.keys();
+        final Iterator it = obj.keys();
         String key;
         int val;
 

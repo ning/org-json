@@ -4,6 +4,9 @@ import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Map;
 
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.json.CDL;
@@ -19,20 +22,14 @@ import org.json.JSONTokener;
 import org.json.JSONWriter;
 import org.json.XML;
 import org.json.test.JsonAssert;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * Test class. This file is not formally a member of the org.json library.
  * It is just a casual test tool.
  */
-@Test
-public class TestSuite
+public class TestSuite extends TestCase
 {
-
-    @BeforeMethod(alwaysRun=true)
-    public void setUp()
+    protected void setUp()
     {
         XMLUnit.setNormalize(true);
         XMLUnit.setIgnoreComments(true);
@@ -319,24 +316,24 @@ public class TestSuite
         final JSONStringer jj = new JSONStringer();
 
         final String s = jj
-            .object()
-            .key("single")
-            .value("MARIE HAA'S")
-            .key("Johnny")
-            .value("MARIE HAA\\'S")
-            .key("foo")
-            .value("bar")
-            .key("baz")
-            .array()
-            .object()
-            .key("quux")
-            .value("Thanks, Josh!")
-            .endObject()
-            .endArray()
-            .key("obj keys")
-            .value(JSONObject.getNames(obj))
-            .endObject()
-            .toString();
+        .object()
+        .key("single")
+        .value("MARIE HAA'S")
+        .key("Johnny")
+        .value("MARIE HAA\\'S")
+        .key("foo")
+        .value("bar")
+        .key("baz")
+        .array()
+        .object()
+        .key("quux")
+        .value("Thanks, Josh!")
+        .endObject()
+        .endArray()
+        .key("obj keys")
+        .value(JSONObject.getNames(obj))
+        .endObject()
+        .toString();
 
         final String c = "{\"single\":\"MARIE HAA'S\",\"Johnny\":\"MARIE HAA\\\\'S\",\"foo\":\"bar\",\"baz\":[{\"quux\":\"Thanks, Josh!\"}],\"obj keys\":[\"aString\",\"aNumber\",\"aBoolean\"]}";
 
@@ -348,17 +345,17 @@ public class TestSuite
         final JSONObject o = new JSONObject("{\"a\":[[[\"b\"]]]}");
 
         final String s = new JSONStringer()
-            .object()
-            .key("a")
-            .array()
-            .array()
-            .array()
-            .value("b")
-            .endArray()
-            .endArray()
-            .endArray()
-            .endObject()
-            .toString();
+        .object()
+        .key("a")
+        .array()
+        .array()
+        .array()
+        .value("b")
+        .endArray()
+        .endArray()
+        .endArray()
+        .endObject()
+        .toString();
 
         JsonAssert.assertJsonEquals(o, new JSONObject(s));
     }
@@ -488,69 +485,69 @@ public class TestSuite
         j.put("keys", JSONObject.getNames(j));
 
         final String c1 = "{\n" +
-            "    \"JSONArray\": [],\n" +
-            "    \"JSONObject\": {},\n" +
-            "    \"String\": \"98.6\",\n" +
-            "    \"\\\\u2028\": \"\\u2028\",\n" +
-            "    \"\\\\u2029\": \"\\u2029\",\n" +
-            "    \"bool\": \"true\",\n" +
-            "    \"double\": 1.2345678901234568E29,\n" +
-            "    \"false\": false,\n" +
-            "    \"foo\": [\n" +
-            "        true,\n" +
-            "        false,\n" +
-            "        9876543210,\n" +
-            "        0,\n" +
-            "        1.00000001,\n" +
-            "        1.000000000001,\n" +
-            "        1,\n" +
-            "        1.0E-17,\n" +
-            "        2,\n" +
-            "        0.1,\n" +
-            "        2.0E100,\n" +
-            "        -32,\n" +
-            "        [],\n" +
-            "        {},\n" +
-            "        \"string\",\n" +
-            "        666,\n" +
-            "        2001.99,\n" +
-            "        \"so \\\"fine\\\".\",\n" +
-            "        \"so <fine>.\",\n" +
-            "        true,\n" +
-            "        false,\n" +
-            "        [],\n" +
-            "        {}\n" +
-            "    ],\n" +
-            "    \"int\": 57,\n" +
-            "    \"keys\": [\n" +
-            "        \"foo\",\n" +
-            "        \"to\",\n" +
-            "        \"op\",\n" +
-            "        \"ten\",\n" +
-            "        \"String\",\n" +
-            "        \"JSONObject\",\n" +
-            "        \"JSONArray\",\n" +
-            "        \"int\",\n" +
-            "        \"double\",\n" +
-            "        \"true\",\n" +
-            "        \"false\",\n" +
-            "        \"null\",\n" +
-            "        \"bool\",\n" +
-            "        \"zero\",\n" +
-            "        \"\\\\u2028\",\n" +
-            "        \"\\\\u2029\"\n" +
-            "    ],\n" +
-            "    \"null\": null,\n" +
-            "    \"op\": \"Good\",\n" +
-            "    \"ten\": 10,\n" +
-            "    \"to\": null,\n" +
-            "    \"true\": true,\n" +
-            "    \"zero\": -0\n" +
-            "}";
+        "    \"JSONArray\": [],\n" +
+        "    \"JSONObject\": {},\n" +
+        "    \"String\": \"98.6\",\n" +
+        "    \"\\\\u2028\": \"\\u2028\",\n" +
+        "    \"\\\\u2029\": \"\\u2029\",\n" +
+        "    \"bool\": \"true\",\n" +
+        "    \"double\": 1.2345678901234568E29,\n" +
+        "    \"false\": false,\n" +
+        "    \"foo\": [\n" +
+        "        true,\n" +
+        "        false,\n" +
+        "        9876543210,\n" +
+        "        0,\n" +
+        "        1.00000001,\n" +
+        "        1.000000000001,\n" +
+        "        1,\n" +
+        "        1.0E-17,\n" +
+        "        2,\n" +
+        "        0.1,\n" +
+        "        2.0E100,\n" +
+        "        -32,\n" +
+        "        [],\n" +
+        "        {},\n" +
+        "        \"string\",\n" +
+        "        666,\n" +
+        "        2001.99,\n" +
+        "        \"so \\\"fine\\\".\",\n" +
+        "        \"so <fine>.\",\n" +
+        "        true,\n" +
+        "        false,\n" +
+        "        [],\n" +
+        "        {}\n" +
+        "    ],\n" +
+        "    \"int\": 57,\n" +
+        "    \"keys\": [\n" +
+        "        \"foo\",\n" +
+        "        \"to\",\n" +
+        "        \"op\",\n" +
+        "        \"ten\",\n" +
+        "        \"String\",\n" +
+        "        \"JSONObject\",\n" +
+        "        \"JSONArray\",\n" +
+        "        \"int\",\n" +
+        "        \"double\",\n" +
+        "        \"true\",\n" +
+        "        \"false\",\n" +
+        "        \"null\",\n" +
+        "        \"bool\",\n" +
+        "        \"zero\",\n" +
+        "        \"\\\\u2028\",\n" +
+        "        \"\\\\u2029\"\n" +
+        "    ],\n" +
+        "    \"null\": null,\n" +
+        "    \"op\": \"Good\",\n" +
+        "    \"ten\": 10,\n" +
+        "    \"to\": null,\n" +
+        "    \"true\": true,\n" +
+        "    \"zero\": -0\n" +
+        "}";
 
         final String c2 = "<foo>true</foo><foo>false</foo><foo>9876543210</foo><foo>0.0</foo><foo>1.00000001</foo><foo>1.000000000001</foo><foo>1.0</foo><foo>1.0E-17</foo><foo>2.0</foo><foo>0.1</foo><foo>2.0E100</foo><foo>-32</foo>" +
-            "<foo></foo><foo></foo><foo>string</foo><foo>666</foo><foo>2001.99</foo><foo>so &quot;fine&quot;.</foo><foo>so &lt;fine&gt;.</foo><foo>true</foo><foo>false</foo><foo></foo><foo></foo><to>null</to><op>Good</op>" +
-            "<ten>10</ten><String>98.6</String><JSONObject></JSONObject><int>57</int><double>1.2345678901234568E29</double><true>true</true><false>false</false><null>null</null><bool>true</bool><zero>-0.0</zero>";
+        "<foo></foo><foo></foo><foo>string</foo><foo>666</foo><foo>2001.99</foo><foo>so &quot;fine&quot;.</foo><foo>so &lt;fine&gt;.</foo><foo>true</foo><foo>false</foo><foo></foo><foo></foo><to>null</to><op>Good</op>" +
+        "<ten>10</ten><String>98.6</String><JSONObject></JSONObject><int>57</int><double>1.2345678901234568E29</double><true>true</true><false>false</false><null>null</null><bool>true</bool><zero>-0.0</zero>";
 
         Assert.assertEquals(j.toString(4), c1);
         Assert.assertTrue(XML.toString(j).startsWith(c2));
@@ -599,12 +596,12 @@ public class TestSuite
             "}}";
 
         final String c2 = "<xml><one>1</one><two> &quot;2&quot; </two><five/><five/>First \t&lt;content&gt;\n" +
-            "This is &quot;content&quot;.\n" +
-            "JSON does not preserve the sequencing of elements and contents.\n" +
-            "Content text is an implied structure in XML.\n" +
-            "JSON does not have implied structure:\n" +
-            "everything is explicit.\n" +
-            "CDATA blocks&lt;are&gt;&lt;supported&gt;!<three>3</three><three>III</three><three>T H R E E</three><four/><six/><seven>7</seven></xml>";
+        "This is &quot;content&quot;.\n" +
+        "JSON does not preserve the sequencing of elements and contents.\n" +
+        "Content text is an implied structure in XML.\n" +
+        "JSON does not have implied structure:\n" +
+        "everything is explicit.\n" +
+        "CDATA blocks&lt;are&gt;&lt;supported&gt;!<three>3</three><three>III</three><three>T H R E E</three><four/><six/><seven>7</seven></xml>";
 
 
         Assert.assertEquals(j.toString(2), c1);
@@ -614,43 +611,43 @@ public class TestSuite
 
 
         final String c3 =
-        "[\n" +
-        "    \"xml\",\n" +
-        "    {\n" +
-        "        \"one\": 1,\n" +
-        "        \"two\": \" \\\"2\\\" \"\n" +
-        "    },\n" +
-        "    [\"five\"],\n" +
-        "    \"First \\t<content>\",\n" +
-        "    [\"five\"],\n" +
-        "    \"This is \\\"content\\\".\",\n" +
-        "    [\n" +
-        "        \"three\",\n" +
-        "        3\n" +
-        "    ],\n" +
-        "    \"JSON does not preserve the sequencing of elements and contents.\",\n" +
-        "    [\n" +
-        "        \"three\",\n" +
-        "        \"III\"\n" +
-        "    ],\n" +
-        "    [\n" +
-        "        \"three\",\n" +
-        "        \"T H R E E\"\n" +
-        "    ],\n" +
-        "    [\"four\"],\n" +
-        "    \"Content text is an implied structure in XML.\",\n" +
-        "    [\n" +
-        "        \"six\",\n" +
-        "        {\"content\": 6}\n" +
-        "    ],\n" +
-        "    \"JSON does not have implied structure:\",\n" +
-        "    [\n" +
-        "        \"seven\",\n" +
-        "        7\n" +
-        "    ],\n" +
-        "    \"everything is explicit.\",\n" +
-        "    \"CDATA blocks<are><supported>!\"\n" +
-        "]";
+            "[\n" +
+            "    \"xml\",\n" +
+            "    {\n" +
+            "        \"one\": 1,\n" +
+            "        \"two\": \" \\\"2\\\" \"\n" +
+            "    },\n" +
+            "    [\"five\"],\n" +
+            "    \"First \\t<content>\",\n" +
+            "    [\"five\"],\n" +
+            "    \"This is \\\"content\\\".\",\n" +
+            "    [\n" +
+            "        \"three\",\n" +
+            "        3\n" +
+            "    ],\n" +
+            "    \"JSON does not preserve the sequencing of elements and contents.\",\n" +
+            "    [\n" +
+            "        \"three\",\n" +
+            "        \"III\"\n" +
+            "    ],\n" +
+            "    [\n" +
+            "        \"three\",\n" +
+            "        \"T H R E E\"\n" +
+            "    ],\n" +
+            "    [\"four\"],\n" +
+            "    \"Content text is an implied structure in XML.\",\n" +
+            "    [\n" +
+            "        \"six\",\n" +
+            "        {\"content\": 6}\n" +
+            "    ],\n" +
+            "    \"JSON does not have implied structure:\",\n" +
+            "    [\n" +
+            "        \"seven\",\n" +
+            "        7\n" +
+            "    ],\n" +
+            "    \"everything is explicit.\",\n" +
+            "    \"CDATA blocks<are><supported>!\"\n" +
+            "]";
 
         final String c4 = "<xml one=\"1\" two=\" &quot;2&quot; \"><five/>First \t&lt;content&gt;<five/>This is &quot;content&quot;.<three></three>JSON does not preserve the sequencing of elements and contents.<three>III</three><three>T H R E E</three><four/>Content text is an implied structure in XML.<six content=\"6\"/>JSON does not have implied structure:<seven></seven>everything is explicit.CDATA blocks&lt;are&gt;&lt;supported&gt;!</xml>";
 
@@ -699,7 +696,7 @@ public class TestSuite
                 "        \"bind-xml\": \"\",\n" +
                 "        \"name\": \"text\"\n" +
                 "      },\n" +
-                "      \"name\": \"FirstName\"},{\"field\": {\"bind-xml\": \"\",\"name\": \"text\"},\"name\": \"MI\"},{\"field\": {\"bind-xml\": \"\",\"name\": \"text\"},\"name\": \"LastName\"}],\"empty\": \"\"}}");
+        "      \"name\": \"FirstName\"},{\"field\": {\"bind-xml\": \"\",\"name\": \"text\"},\"name\": \"MI\"},{\"field\": {\"bind-xml\": \"\",\"name\": \"text\"},\"name\": \"LastName\"}],\"empty\": \"\"}}");
 
         final String c2 = "<mapping><empty/><class><name>Customer</name><field><name>ID</name><type>string</type><bind-xml/></field><field/><field/><field/></class><class><name>FirstName</name><field><name>text</name><bind-xml/></field></class><class><name>MI</name><field><name>text</name><bind-xml/></field></class><class><name>LastName</name><field><name>text</name><bind-xml/></field></class></mapping>";
 
@@ -864,60 +861,60 @@ public class TestSuite
         XMLAssert.assertXMLEqual(c2, XML.toString(j));
     }
 
-   public void testEmbeddedEntity() throws Exception
-   {
-       final JSONObject j = XML.toJSONObject("<!ENTITY tp-address PUBLIC '-//ABC University::Special Collections Library//TEXT (titlepage: name and address)//EN' 'tpspcoll.sgm'><list type='simple'><head>Repository Address </head><item>Special Collections Library</item><item>ABC University</item><item>Main Library, 40 Circle Drive</item><item>Ourtown, Pennsylvania</item><item>17654 USA</item></list>");
+    public void testEmbeddedEntity() throws Exception
+    {
+        final JSONObject j = XML.toJSONObject("<!ENTITY tp-address PUBLIC '-//ABC University::Special Collections Library//TEXT (titlepage: name and address)//EN' 'tpspcoll.sgm'><list type='simple'><head>Repository Address </head><item>Special Collections Library</item><item>ABC University</item><item>Main Library, 40 Circle Drive</item><item>Ourtown, Pennsylvania</item><item>17654 USA</item></list>");
 
-       final JSONObject c1 = new JSONObject("{\"list\":{\"type\":\"simple\",\"head\":\"Repository Address\",\"item\":[\"Special Collections Library\",\"ABC University\",\"Main Library, 40 Circle Drive\",\"Ourtown, Pennsylvania\",\"17654 USA\"]}}");
-       final String c2 = "<list><type>simple</type><head>Repository Address</head><item>Special Collections Library</item><item>ABC University</item><item>Main Library, 40 Circle Drive</item><item>Ourtown, Pennsylvania</item><item>17654 USA</item></list>";
+        final JSONObject c1 = new JSONObject("{\"list\":{\"type\":\"simple\",\"head\":\"Repository Address\",\"item\":[\"Special Collections Library\",\"ABC University\",\"Main Library, 40 Circle Drive\",\"Ourtown, Pennsylvania\",\"17654 USA\"]}}");
+        final String c2 = "<list><type>simple</type><head>Repository Address</head><item>Special Collections Library</item><item>ABC University</item><item>Main Library, 40 Circle Drive</item><item>Ourtown, Pennsylvania</item><item>17654 USA</item></list>";
 
         JsonAssert.assertJsonEquals(c1, j);
         XMLAssert.assertXMLEqual(c2, XML.toString(j));
-   }
+    }
 
-   public void testIntertags() throws Exception
-   {
-       final JSONObject j = XML.toJSONObject("<test intertag status=ok><empty/>deluxe<blip sweet=true>&amp;&quot;toot&quot;&toot;&#x41;</blip><x>eks</x><w>bonus</w><w>bonus2</w></test>");
+    public void testIntertags() throws Exception
+    {
+        final JSONObject j = XML.toJSONObject("<test intertag status=ok><empty/>deluxe<blip sweet=true>&amp;&quot;toot&quot;&toot;&#x41;</blip><x>eks</x><w>bonus</w><w>bonus2</w></test>");
 
-       final JSONObject c1 = new JSONObject("{\"test\": {" +
-                                           "  \"blip\": {" +
-                                           "            \"content\": \"&\\\"toot\\\"&toot;&#x41;\"," +
-                                           "    \"sweet\": true" +
-                                           "  }," +
-                                           "  \"content\": \"deluxe\"," +
-                                           "  \"empty\": \"\"," +
-                                           "  \"intertag\": \"\"," +
-                                           "  \"status\": \"ok\"," +
-                                           "  \"w\": [" +
-                                           "    \"bonus\"," +
-                                           "    \"bonus2\"" +
-                                           "  ]," +
-                                           "  \"x\": \"eks\"" +
-                                           "}}");
+        final JSONObject c1 = new JSONObject("{\"test\": {" +
+                "  \"blip\": {" +
+                "            \"content\": \"&\\\"toot\\\"&toot;&#x41;\"," +
+                "    \"sweet\": true" +
+                "  }," +
+                "  \"content\": \"deluxe\"," +
+                "  \"empty\": \"\"," +
+                "  \"intertag\": \"\"," +
+                "  \"status\": \"ok\"," +
+                "  \"w\": [" +
+                "    \"bonus\"," +
+                "    \"bonus2\"" +
+                "  ]," +
+                "  \"x\": \"eks\"" +
+        "}}");
 
-       final String c2 = "<test><intertag/><status>ok</status><empty/>deluxe<blip><sweet>true</sweet>&amp;&quot;toot&quot;&amp;toot;&amp;#x41;</blip><x>eks</x><w>bonus</w><w>bonus2</w></test>";
+        final String c2 = "<test><intertag/><status>ok</status><empty/>deluxe<blip><sweet>true</sweet>&amp;&quot;toot&quot;&amp;toot;&amp;#x41;</blip><x>eks</x><w>bonus</w><w>bonus2</w></test>";
 
-       JsonAssert.assertJsonEquals(c1, j);
-       XMLAssert.assertXMLEqual(c2, XML.toString(j));
-   }
+        JsonAssert.assertJsonEquals(c1, j);
+        XMLAssert.assertXMLEqual(c2, XML.toString(j));
+    }
 
-   public void testHTTPGet() throws Exception
-   {
-       final JSONObject j = HTTP.toJSONObject("GET / HTTP/1.0\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*\nAccept-Language: en-us\nUser-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows 98; Win 9x 4.90; T312461; Q312461)\nHost: www.nokko.com\nConnection: keep-alive\nAccept-encoding: gzip, deflate\n");
+    public void testHTTPGet() throws Exception
+    {
+        final JSONObject j = HTTP.toJSONObject("GET / HTTP/1.0\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*\nAccept-Language: en-us\nUser-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows 98; Win 9x 4.90; T312461; Q312461)\nHost: www.nokko.com\nConnection: keep-alive\nAccept-encoding: gzip, deflate\n");
 
-       final JSONObject c1 = new JSONObject("{" +
-           "  \"Accept\": \"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*\"," +
-           "  \"Accept-Language\": \"en-us\"," +
-           "  \"Accept-encoding\": \"gzip, deflate\"," +
-           "  \"Connection\": \"keep-alive\"," +
-           "  \"HTTP-Version\": \"HTTP/1.0\"," +
-           "  \"Host\": \"www.nokko.com\"," +
-           "  \"Method\": \"GET\"," +
-           "  \"Request-URI\": \"/\"," +
-           "  \"User-Agent\": \"Mozilla/4.0 (compatible; MSIE 5.5; Windows 98; Win 9x 4.90; T312461; Q312461)\"" +
-           "}");
+        final JSONObject c1 = new JSONObject("{" +
+                "  \"Accept\": \"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*\"," +
+                "  \"Accept-Language\": \"en-us\"," +
+                "  \"Accept-encoding\": \"gzip, deflate\"," +
+                "  \"Connection\": \"keep-alive\"," +
+                "  \"HTTP-Version\": \"HTTP/1.0\"," +
+                "  \"Host\": \"www.nokko.com\"," +
+                "  \"Method\": \"GET\"," +
+                "  \"Request-URI\": \"/\"," +
+                "  \"User-Agent\": \"Mozilla/4.0 (compatible; MSIE 5.5; Windows 98; Win 9x 4.90; T312461; Q312461)\"" +
+        "}");
 
-    final String c2 = "GET \"/\" HTTP/1.0\r\n" +
+        final String c2 = "GET \"/\" HTTP/1.0\r\n" +
         "Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*\r\n" +
         "Accept-Language: en-us\r\n" +
         "User-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows 98; Win 9x 4.90; T312461; Q312461)\r\n" +
@@ -925,410 +922,410 @@ public class TestSuite
         "Connection: keep-alive\r\n" +
         "Accept-encoding: gzip, deflate\r\n\r\n";
 
-    JsonAssert.assertJsonEquals(c1, j);
-    Assert.assertEquals(c2, HTTP.toString(j));
-   }
-
-   public void testHTTPResponse() throws Exception
-   {
-       final JSONObject j = HTTP.toJSONObject("HTTP/1.1 200 Oki Doki\nDate: Sun, 26 May 2002 17:38:52 GMT\nServer: Apache/1.3.23 (Unix) mod_perl/1.26\nKeep-Alive: timeout=15, max=100\nConnection: Keep-Alive\nTransfer-Encoding: chunked\nContent-Type: text/html\n");
-
-       final JSONObject c1 = new JSONObject("{" +
-                                            "  \"Connection\": \"Keep-Alive\"," +
-                                            "  \"Content-Type\": \"text/html\"," +
-                                            "  \"Date\": \"Sun, 26 May 2002 17:38:52 GMT\"," +
-                                            "  \"HTTP-Version\": \"HTTP/1.1\"," +
-                                            "  \"Keep-Alive\": \"timeout=15, max=100\"," +
-                                            "  \"Reason-Phrase\": \"Oki Doki\"," +
-                                            "  \"Server\": \"Apache/1.3.23 (Unix) mod_perl/1.26\"," +
-                                            "  \"Status-Code\": \"200\"," +
-                                            "  \"Transfer-Encoding\": \"chunked\"" +
-                                            "}");
-
-       final String c2 =  "HTTP/1.1 200 Oki Doki\r\n" +
-           "Date: Sun, 26 May 2002 17:38:52 GMT\r\n" +
-           "Server: Apache/1.3.23 (Unix) mod_perl/1.26\r\n" +
-           "Keep-Alive: timeout=15, max=100\r\n" +
-           "Connection: Keep-Alive\r\n" +
-           "Transfer-Encoding: chunked\r\n" +
-           "Content-Type: text/html\r\n\r\n";
-
-       JsonAssert.assertJsonEquals(c1, j);
-       Assert.assertEquals(c2, HTTP.toString(j));
-   }
-
-   public void testRetrieveHTTPFields() throws Exception
-   {
-       final JSONObject j = new JSONObject("{nix: null, nux: false, null: 'null', 'Request-URI': '/', Method: 'GET', 'HTTP-Version': 'HTTP/1.0'}");
-
-       final JSONObject c1 = new JSONObject("{" +
-                                           "  \"HTTP-Version\": \"HTTP/1.0\"," +
-                                           "  \"Method\": \"GET\"," +
-                                           "  \"Request-URI\": \"/\"," +
-                                           "  \"nix\": null," +
-                                           "  \"null\": \"null\"," +
-                                           "  \"nux\": false" +
-                                           "}");
-
-       final String c2 = "<foo><nix>null</nix><nux>false</nux><null>null</null><Request-URI>/</Request-URI><Method>GET</Method><HTTP-Version>HTTP/1.0</HTTP-Version></foo>";
-
-       final String c3 = "GET \"/\" HTTP/1.0\r\n" +
-           "nux: false\r\n" +
-           "null: null\r\n\r\n";
-
-       JsonAssert.assertJsonEquals(c1, j);
-       Assert.assertTrue(j.isNull("nix"));
-       Assert.assertTrue(j.has("nix"));
-       // It is not XML. It is tag soup. ;-P
-       XMLAssert.assertXMLEqual(c2, "<foo>" + XML.toString(j) + "</foo>");
-       Assert.assertEquals(c3, HTTP.toString(j));
-   }
-
-   public void testXMLSoapHeader() throws Exception
-   {
-
-       final JSONObject j = XML.toJSONObject("<?xml version='1.0' encoding='UTF-8'?>"+"\n\n"+"<SOAP-ENV:Envelope"+
-                     " xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\""+
-                     " xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\""+
-                     " xmlns:xsd=\"http://www.w3.org/1999/XMLSchema\">"+
-                     "<SOAP-ENV:Body><ns1:doGoogleSearch"+
-                     " xmlns:ns1=\"urn:GoogleSearch\""+
-                     " SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"+
-                     "<key xsi:type=\"xsd:string\">GOOGLEKEY</key> <q"+
-                     " xsi:type=\"xsd:string\">'+search+'</q> <start"+
-                     " xsi:type=\"xsd:int\">0</start> <maxResults"+
-                     " xsi:type=\"xsd:int\">10</maxResults> <filter"+
-                     " xsi:type=\"xsd:boolean\">true</filter> <restrict"+
-                     " xsi:type=\"xsd:string\"></restrict> <safeSearch"+
-                     " xsi:type=\"xsd:boolean\">false</safeSearch> <lr"+
-                     " xsi:type=\"xsd:string\"></lr> <ie"+
-                     " xsi:type=\"xsd:string\">latin1</ie> <oe"+
-                     " xsi:type=\"xsd:string\">latin1</oe>"+
-                     "</ns1:doGoogleSearch>"+
-                     "</SOAP-ENV:Body></SOAP-ENV:Envelope>");
-
-       final JSONObject c1 = new JSONObject("{\"SOAP-ENV:Envelope\": {" +
-                                                        "  \"SOAP-ENV:Body\": {\"ns1:doGoogleSearch\": {" +
-                                                        "    \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\"," +
-                                                        "    \"filter\": {" +
-                                                        "      \"content\": true," +
-                                                        "      \"xsi:type\": \"xsd:boolean\"" +
-                                                        "    }," +
-                                                        "    \"ie\": {" +
-                                                        "      \"content\": \"latin1\"," +
-                                                        "      \"xsi:type\": \"xsd:string\"" +
-                                                        "    }," +
-                                                        "    \"key\": {" +
-                                                        "      \"content\": \"GOOGLEKEY\"," +
-                                                        "      \"xsi:type\": \"xsd:string\"" +
-                                                        "    }," +
-                                                        "    \"lr\": {\"xsi:type\": \"xsd:string\"}," +
-                                                        "    \"maxResults\": {" +
-                                                        "      \"content\": 10," +
-                                                        "      \"xsi:type\": \"xsd:int\"" +
-                                                        "    }," +
-                                                        "    \"oe\": {" +
-                                                        "      \"content\": \"latin1\"," +
-                                                        "      \"xsi:type\": \"xsd:string\"" +
-                                                        "    }," +
-                                                        "    \"q\": {" +
-                                                        "      \"content\": \"'+search+'\"," +
-                                                        "      \"xsi:type\": \"xsd:string\"" +
-                                                        "    }," +
-                                                        "    \"restrict\": {\"xsi:type\": \"xsd:string\"}," +
-                                                        "    \"safeSearch\": {" +
-                                                        "      \"content\": false," +
-                                                        "      \"xsi:type\": \"xsd:boolean\"" +
-                                                        "    }," +
-                                                        "    \"start\": {" +
-                                                        "      \"content\": 0," +
-                                                        "      \"xsi:type\": \"xsd:int\"" +
-                                                        "    }," +
-                                                        "    \"xmlns:ns1\": \"urn:GoogleSearch\"" +
-                                                        "  }}," +
-                                                        "  \"xmlns:SOAP-ENV\": \"http://schemas.xmlsoap.org/soap/envelope/\"," +
-                                                        "  \"xmlns:xsd\": \"http://www.w3.org/1999/XMLSchema\"," +
-                                                        "\"xmlns:xsi\": \"http://www.w3.org/1999/XMLSchema-instance\"" +
-                                                        "}}");
-
-                   final String c2 = "<SOAP-ENV:Envelope><xmlns:SOAP-ENV>http://schemas.xmlsoap.org/soap/envelope/</xmlns:SOAP-ENV><xmlns:xsi>http://www.w3.org/1999/XMLSchema-instance</xmlns:xsi><xmlns:xsd>http://www.w3.org/1999/XMLSchema</xmlns:xsd><SOAP-ENV:Body><ns1:doGoogleSearch><xmlns:ns1>urn:GoogleSearch</xmlns:ns1><SOAP-ENV:encodingStyle>http://schemas.xmlsoap.org/soap/encoding/</SOAP-ENV:encodingStyle><key><xsi:type>xsd:string</xsi:type>GOOGLEKEY</key><q><xsi:type>xsd:string</xsi:type>'+search+'</q><start><xsi:type>xsd:int</xsi:type>0</start><maxResults><xsi:type>xsd:int</xsi:type>10</maxResults><filter><xsi:type>xsd:boolean</xsi:type>true</filter><restrict><xsi:type>xsd:string</xsi:type></restrict><safeSearch><xsi:type>xsd:boolean</xsi:type>false</safeSearch><lr><xsi:type>xsd:string</xsi:type></lr><ie><xsi:type>xsd:string</xsi:type>latin1</ie><oe><xsi:type>xsd:string</xsi:type>latin1</oe></ns1:doGoogleSearch></SOAP-ENV:Body></SOAP-ENV:Envelope>";
-
-                   JsonAssert.assertJsonEquals(c1, j);
-                   Assert.assertEquals(c2, XML.toString(j));
-   }
-
-   public void testSoapEnvelope() throws Exception
-   {
-       final JSONObject j = new JSONObject("{Envelope: {Body: {\"ns1:doGoogleSearch\": {oe: \"latin1\", filter: true, q: \"'+search+'\", key: \"GOOGLEKEY\", maxResults: 10, \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\", start: 0, ie: \"latin1\", safeSearch:false, \"xmlns:ns1\": \"urn:GoogleSearch\"}}}}");
-
-       final String c1 = "{\"Envelope\": {\"Body\": {\"ns1:doGoogleSearch\": {\n" +
-           "  \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\",\n" +
-           "  \"filter\": true,\n" +
-           "  \"ie\": \"latin1\",\n" +
-           "  \"key\": \"GOOGLEKEY\",\n" +
-           "  \"maxResults\": 10,\n" +
-           "  \"oe\": \"latin1\",\n" +
-           "  \"q\": \"'+search+'\",\n" +
-           "  \"safeSearch\": false,\n" +
-           "  \"start\": 0,\n" +
-           "  \"xmlns:ns1\": \"urn:GoogleSearch\"\n" +
-           "}}}}";
-       final String c2 = "<Envelope><Body><ns1:doGoogleSearch><oe>latin1</oe><filter>true</filter><q>'+search+'</q><key>GOOGLEKEY</key><maxResults>10</maxResults><SOAP-ENV:encodingStyle>http://schemas.xmlsoap.org/soap/encoding/</SOAP-ENV:encodingStyle><start>0</start><ie>latin1</ie><safeSearch>false</safeSearch><xmlns:ns1>urn:GoogleSearch</xmlns:ns1></ns1:doGoogleSearch></Body></Envelope>";
-
-       Assert.assertEquals(c1, j.toString(2));
-       Assert.assertEquals(c2, XML.toString(j));
-   }
-
-   public void testReadCookies() throws Exception
-   {
-       final JSONObject j = CookieList.toJSONObject("  f%oo = b+l=ah  ; o;n%40e = t.wo ");
-
-       final JSONObject c1 = new JSONObject("{" +
-                                            "  \"f%oo\": \"b l=ah\"," +
-                                            "  \"o;n@e\": \"t.wo\"" +
-                                            "}");
-
-       final String c2 = "f%25oo=b l%3dah;o%3bn@e=t.wo";
-
-       JsonAssert.assertJsonEquals(c1, j);
-       Assert.assertEquals(c2, CookieList.toString(j));
-   }
-
-   public void testExpiresCookie() throws Exception
-   {
-       final JSONObject j = Cookie.toJSONObject("f%oo=blah; secure ;expires = April 24, 2002");
-
-       final JSONObject c1 = new JSONObject("{" +
-                                            "  \"expires\": \"April 24, 2002\"," +
-                                            "  \"name\": \"f%oo\"," +
-                                            "  \"secure\": true," +
-                                            "  \"value\": \"blah\"" +
-                                            "}");
-
-       final String c2 = "f%25oo=blah;expires=April 24, 2002;secure";
-
-       JsonAssert.assertJsonEquals(c1, j);
-       Assert.assertEquals(c2, Cookie.toString(j));
-   }
-
-   public void testBackslash() throws Exception
-   {
-
-       final JSONObject j = new JSONObject("{script: 'It is not allowed in HTML to send a close script tag in a string<script>because it confuses browsers</script>so we insert a backslash before the /'}");
-
-       final String c1 = "{\"script\":\"It is not allowed in HTML to send a close script tag in a string<script>because it confuses browsers<\\/script>so we insert a backslash before the /\"}";
-
-       Assert.assertEquals(c1, j.toString());
-   }
-
-   public void testTokenerSession() throws Exception
-   {
-       final JSONTokener jt = new JSONTokener("{op:'test', to:'session', pre:1}{op:'test', to:'session', pre:2}");
-       JSONObject j = new JSONObject(jt);
-
-       Assert.assertEquals("{\"op\":\"test\",\"to\":\"session\",\"pre\":1}", j.toString());
-
-       Assert.assertEquals(1, j.optInt("pre"));
-
-       Assert.assertEquals('{', jt.skipTo('{'));
-
-       j = new JSONObject(jt);
-       Assert.assertEquals("{\"op\":\"test\",\"to\":\"session\",\"pre\":2}", j.toString());
-   }
-
-   public void testCLD() throws Exception
-   {
-       final JSONArray a = CDL.toJSONArray("Comma delimited list test, '\"Strip\"Quotes', 'quote, comma', No quotes, 'Single Quotes', \"Double Quotes\"\n1,'2',\"3\"\n,'It is \"good,\"', \"It works.\"\n\n");
-
-       final String c1 = "Comma delimited list test,\"StripQuotes\",\"quote, comma\"\n" +
-           "1,2,3\n" +
-           ",\"It is good,\",It works.\n";
-
-       final JSONArray c2 = new JSONArray("[" +
-               "    {" +
-               "        \"StripQuotes\": \"2\"," +
-               "        \"Comma delimited list test\": \"1\"," +
-               "        \"quote, comma\": \"3\"" +
-               "    }," +
-               "    {" +
-               "        \"StripQuotes\": \"It is good,\"," +
-               "        \"Comma delimited list test\": \"\"," +
-               "        \"quote, comma\": \"It works.\"" +
-               "    }" +
-               "]");
-
-       final JSONArray c3 = new JSONArray("[" +
-               "    {" +
-               "        \"Comma delimited list test\": \"1\"," +
-               "        \"StripQuotes\": \"2\"," +
-               "        \"quote, comma\": \"3\"" +
-               "    }," +
-               "    {" +
-               "        \"Comma delimited list test\": \"\"," +
-               "        \"StripQuotes\": \"It is good,\"," +
-               "        \"quote, comma\": \"It works.\"" +
-               "    }" +
-               "]");
-
-       final String s = CDL.toString(a);
-       Assert.assertEquals(c1, s);
-       JsonAssert.assertJsonEquals(c2, CDL.toJSONArray(s));
-
-       final JSONArray a2 = CDL.toJSONArray(s);
-       JsonAssert.assertJsonEquals(c3, a2);
-   }
-
-   public void testImpliedNull() throws Exception
-   {
-       final JSONArray a = new JSONArray(" [\"<escape>\", next is an implied null , , ok,] ");
-
-       Assert.assertEquals("[\"<escape>\",\"next is an implied null\",null,\"ok\"]", a.toString());
-       Assert.assertEquals("<array>&lt;escape&gt;</array><array>next is an implied null</array><array>null</array><array>ok</array>", XML.toString(a));
-   }
-
-   public void testNonstandardForm() throws Exception
-   {
-       final JSONObject j = new JSONObject("{ fun => with non-standard forms ; forgiving => This package can be used to parse formats that are similar to but not stricting conforming to JSON; why=To make it easier to migrate existing data to JSON,one = [[1.00]]; uno=[[{1=>1}]];'+':+6e66 ;pluses=+++;empty = '' , 'double':0.666,true: TRUE, false: FALSE, null=NULL;[true] = [[!,@;*]]; string=>  o. k. ; \r oct=0666; hex=0x666; dec=666; o=0999; noh=0x0x}");
-
-       final JSONObject c1 = new JSONObject("{" +
-                                            "    \"+\": 6.0E66," +
-                                            "    \"[true]\": [[" +
-                                            "        \"!\"," +
-                                            "        \"@\"," +
-                                            "        \"*\"" +
-                                            "    ]]," +
-                                            "    \"dec\": 666," +
-                                            "    \"double\": 0.666," +
-                                            "    \"empty\": \"\"," +
-                                            "    \"false\": false," +
-                                            "    \"forgiving\": \"This package can be used to parse formats that are similar to but not stricting conforming to JSON\"," +
-                                            "    \"fun\": \"with non-standard forms\"," +
-                                            "    \"hex\": 1638," +
-                                            "    \"noh\": \"0x0x\"," +
-                                            "    \"null\": null," +
-                                            "    \"o\": 999," +
-                                            "    \"oct\": 666," +
-                                            "    \"one\": [[1]]," +
-                                            "    \"pluses\": \"+++\"," +
-                                            "    \"string\": \"o. k.\"," +
-                                            "    \"true\": true," +
-                                            "    \"uno\": [[{\"1\": 1}]]," +
-                                            "    \"why\": \"To make it easier to migrate existing data to JSON\"" +
-                                            "}");
-
-       JsonAssert.assertJsonEquals(c1, j);
-
-       Assert.assertTrue(j.getBoolean("true"));
-       Assert.assertFalse(j.getBoolean("false"));
-   }
-
-   public void testDHO() throws Exception
-   {
-       JSONObject j = new JSONObject("{ fun => with non-standard forms ; forgiving => This package can be used to parse formats that are similar to but not stricting conforming to JSON; why=To make it easier to migrate existing data to JSON,one = [[1.00]]; uno=[[{1=>1}]];'+':+6e66 ;pluses=+++;empty = '' , 'double':0.666,true: TRUE, false: FALSE, null=NULL;[true] = [[!,@;*]]; string=>  o. k. ; \r oct=0666; hex=0x666; dec=666; o=0999; noh=0x0x}");
-
-       j = new JSONObject(j, new String[]{"dec", "oct", "hex", "missing"});
-
-       JSONObject c1 = new JSONObject("{" +
-                                      "    \"dec\": 666," +
-                                      "    \"hex\": 1638," +
-                                      "    \"oct\": 666" +
-                                      "}");
-
-       JsonAssert.assertJsonEquals(c1, j);
-   }
-
-   public void testArrayObjectStringer() throws Exception
-   {
-       final JSONArray a = new JSONArray(" [\"<escape>\", next is an implied null , , ok,] ");
-       final JSONObject j = new JSONObject("{" +
-                                      "    \"dec\": 666," +
-                                      "    \"hex\": 1638," +
-                                      "    \"oct\": 666" +
-                                      "}");
-
-       final JSONWriter jw = new JSONStringer().array().value(a).value(j).endArray();
-
-       final String c1 = "[[\"<escape>\",\"next is an implied null\",null,\"ok\"],{\"dec\":666,\"hex\":1638,\"oct\":666}]";
-
-       Assert.assertEquals(c1, jw.toString());
-   }
-
-   public void testNumberTypes() throws Exception
-   {
-       final JSONObject j = new JSONObject("{string: \"98.6\", long: 2147483648, int: 2147483647, longer: 9223372036854775807, double: 9223372036854775808}");
-
-       final String c1 = "{\n" +
-           "    \"double\": \"9223372036854775808\",\n" +
-           "    \"int\": 2147483647,\n" +
-           "    \"long\": 2147483648,\n" +
-           "    \"longer\": 9223372036854775807,\n" +
-           "    \"string\": \"98.6\"\n" +
-           "}";
-
-       Assert.assertEquals(c1, j.toString(4));
-
-       Assert.assertEquals(2147483647, j.getInt("int"));
-       Assert.assertEquals(-2147483648, j.getInt("long"));
-       Assert.assertEquals(-1, j.getInt("longer"));
-
-       Assert.assertEquals(2147483647, j.getLong("int"));
-       Assert.assertEquals(2147483648L, j.getLong("long"));
-       Assert.assertEquals(9223372036854775807L, j.getLong("longer"));
-
-       Assert.assertEquals(2.147483647E9, j.getDouble("int"));
-       Assert.assertEquals(2.147483648E9, j.getDouble("long"));
-       Assert.assertEquals(9.223372036854776E18, j.getDouble("longer"));
-       Assert.assertEquals(9.223372036854776E18, j.getDouble("double"));
-       Assert.assertEquals(98.6, j.getDouble("string"));
-
-       j.put("good sized", 9223372036854775807L);
-
-       final JSONObject c2 = new JSONObject("{" +
-                                            "    \"double\": \"9223372036854775808\"," +
-                                            "    \"good sized\": 9223372036854775807," +
-                                            "    \"int\": 2147483647," +
-                                            "    \"long\": 2147483648," +
-                                            "    \"longer\": 9223372036854775807," +
-                                            "    \"string\": \"98.6\"" +
-                                            "}");
-
-       JsonAssert.assertJsonEquals(c2, j);
-   }
-
-   public void testNumberArray() throws Exception
-   {
-       final JSONArray a = new JSONArray("[2147483647, 2147483648, 9223372036854775807, 9223372036854775808]");
-
-
-       final String c1 = "[\n" +
-           "    2147483647,\n" +
-           "    2147483648,\n" +
-           "    9223372036854775807,\n" +
-           "    \"9223372036854775808\"\n" +
-           "]";
-
-       Assert.assertEquals(c1, a.toString(4));
-   }
-
-
-   public void testNumberKeys() throws Exception
-   {
-       final JSONObject j = new JSONObject("{" +
-                                           "    \"double\": \"9223372036854775808\"," +
-                                           "    \"good sized\": 9223372036854775807," +
-                                           "    \"int\": 2147483647," +
-                                           "    \"long\": 2147483648," +
-                                           "    \"longer\": 9223372036854775807," +
-                                           "    \"string\": \"98.6\"" +
-                                           "}");
-
-       Assert.assertEquals("2147483647", j.getString("int"));
-       Assert.assertEquals("2147483648", j.getString("long"));
-       Assert.assertEquals("9223372036854775807", j.getString("longer"));
-       Assert.assertEquals("9223372036854775808", j.getString("double"));
-       Assert.assertEquals("98.6", j.getString("string"));
-       Assert.assertEquals("9223372036854775807", j.getString("good sized"));
-   }
+        JsonAssert.assertJsonEquals(c1, j);
+        Assert.assertEquals(c2, HTTP.toString(j));
+    }
+
+    public void testHTTPResponse() throws Exception
+    {
+        final JSONObject j = HTTP.toJSONObject("HTTP/1.1 200 Oki Doki\nDate: Sun, 26 May 2002 17:38:52 GMT\nServer: Apache/1.3.23 (Unix) mod_perl/1.26\nKeep-Alive: timeout=15, max=100\nConnection: Keep-Alive\nTransfer-Encoding: chunked\nContent-Type: text/html\n");
+
+        final JSONObject c1 = new JSONObject("{" +
+                "  \"Connection\": \"Keep-Alive\"," +
+                "  \"Content-Type\": \"text/html\"," +
+                "  \"Date\": \"Sun, 26 May 2002 17:38:52 GMT\"," +
+                "  \"HTTP-Version\": \"HTTP/1.1\"," +
+                "  \"Keep-Alive\": \"timeout=15, max=100\"," +
+                "  \"Reason-Phrase\": \"Oki Doki\"," +
+                "  \"Server\": \"Apache/1.3.23 (Unix) mod_perl/1.26\"," +
+                "  \"Status-Code\": \"200\"," +
+                "  \"Transfer-Encoding\": \"chunked\"" +
+        "}");
+
+        final String c2 =  "HTTP/1.1 200 Oki Doki\r\n" +
+        "Date: Sun, 26 May 2002 17:38:52 GMT\r\n" +
+        "Server: Apache/1.3.23 (Unix) mod_perl/1.26\r\n" +
+        "Keep-Alive: timeout=15, max=100\r\n" +
+        "Connection: Keep-Alive\r\n" +
+        "Transfer-Encoding: chunked\r\n" +
+        "Content-Type: text/html\r\n\r\n";
+
+        JsonAssert.assertJsonEquals(c1, j);
+        Assert.assertEquals(c2, HTTP.toString(j));
+    }
+
+    public void testRetrieveHTTPFields() throws Exception
+    {
+        final JSONObject j = new JSONObject("{nix: null, nux: false, null: 'null', 'Request-URI': '/', Method: 'GET', 'HTTP-Version': 'HTTP/1.0'}");
+
+        final JSONObject c1 = new JSONObject("{" +
+                "  \"HTTP-Version\": \"HTTP/1.0\"," +
+                "  \"Method\": \"GET\"," +
+                "  \"Request-URI\": \"/\"," +
+                "  \"nix\": null," +
+                "  \"null\": \"null\"," +
+                "  \"nux\": false" +
+        "}");
+
+        final String c2 = "<foo><nix>null</nix><nux>false</nux><null>null</null><Request-URI>/</Request-URI><Method>GET</Method><HTTP-Version>HTTP/1.0</HTTP-Version></foo>";
+
+        final String c3 = "GET \"/\" HTTP/1.0\r\n" +
+        "nux: false\r\n" +
+        "null: null\r\n\r\n";
+
+        JsonAssert.assertJsonEquals(c1, j);
+        Assert.assertTrue(j.isNull("nix"));
+        Assert.assertTrue(j.has("nix"));
+        // It is not XML. It is tag soup. ;-P
+        XMLAssert.assertXMLEqual(c2, "<foo>" + XML.toString(j) + "</foo>");
+        Assert.assertEquals(c3, HTTP.toString(j));
+    }
+
+    public void testXMLSoapHeader() throws Exception
+    {
+
+        final JSONObject j = XML.toJSONObject("<?xml version='1.0' encoding='UTF-8'?>"+"\n\n"+"<SOAP-ENV:Envelope"+
+                " xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\""+
+                " xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\""+
+                " xmlns:xsd=\"http://www.w3.org/1999/XMLSchema\">"+
+                "<SOAP-ENV:Body><ns1:doGoogleSearch"+
+                " xmlns:ns1=\"urn:GoogleSearch\""+
+                " SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"+
+                "<key xsi:type=\"xsd:string\">GOOGLEKEY</key> <q"+
+                " xsi:type=\"xsd:string\">'+search+'</q> <start"+
+                " xsi:type=\"xsd:int\">0</start> <maxResults"+
+                " xsi:type=\"xsd:int\">10</maxResults> <filter"+
+                " xsi:type=\"xsd:boolean\">true</filter> <restrict"+
+                " xsi:type=\"xsd:string\"></restrict> <safeSearch"+
+                " xsi:type=\"xsd:boolean\">false</safeSearch> <lr"+
+                " xsi:type=\"xsd:string\"></lr> <ie"+
+                " xsi:type=\"xsd:string\">latin1</ie> <oe"+
+                " xsi:type=\"xsd:string\">latin1</oe>"+
+                "</ns1:doGoogleSearch>"+
+        "</SOAP-ENV:Body></SOAP-ENV:Envelope>");
+
+        final JSONObject c1 = new JSONObject("{\"SOAP-ENV:Envelope\": {" +
+                "  \"SOAP-ENV:Body\": {\"ns1:doGoogleSearch\": {" +
+                "    \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\"," +
+                "    \"filter\": {" +
+                "      \"content\": true," +
+                "      \"xsi:type\": \"xsd:boolean\"" +
+                "    }," +
+                "    \"ie\": {" +
+                "      \"content\": \"latin1\"," +
+                "      \"xsi:type\": \"xsd:string\"" +
+                "    }," +
+                "    \"key\": {" +
+                "      \"content\": \"GOOGLEKEY\"," +
+                "      \"xsi:type\": \"xsd:string\"" +
+                "    }," +
+                "    \"lr\": {\"xsi:type\": \"xsd:string\"}," +
+                "    \"maxResults\": {" +
+                "      \"content\": 10," +
+                "      \"xsi:type\": \"xsd:int\"" +
+                "    }," +
+                "    \"oe\": {" +
+                "      \"content\": \"latin1\"," +
+                "      \"xsi:type\": \"xsd:string\"" +
+                "    }," +
+                "    \"q\": {" +
+                "      \"content\": \"'+search+'\"," +
+                "      \"xsi:type\": \"xsd:string\"" +
+                "    }," +
+                "    \"restrict\": {\"xsi:type\": \"xsd:string\"}," +
+                "    \"safeSearch\": {" +
+                "      \"content\": false," +
+                "      \"xsi:type\": \"xsd:boolean\"" +
+                "    }," +
+                "    \"start\": {" +
+                "      \"content\": 0," +
+                "      \"xsi:type\": \"xsd:int\"" +
+                "    }," +
+                "    \"xmlns:ns1\": \"urn:GoogleSearch\"" +
+                "  }}," +
+                "  \"xmlns:SOAP-ENV\": \"http://schemas.xmlsoap.org/soap/envelope/\"," +
+                "  \"xmlns:xsd\": \"http://www.w3.org/1999/XMLSchema\"," +
+                "\"xmlns:xsi\": \"http://www.w3.org/1999/XMLSchema-instance\"" +
+        "}}");
+
+        final String c2 = "<SOAP-ENV:Envelope><xmlns:SOAP-ENV>http://schemas.xmlsoap.org/soap/envelope/</xmlns:SOAP-ENV><xmlns:xsi>http://www.w3.org/1999/XMLSchema-instance</xmlns:xsi><xmlns:xsd>http://www.w3.org/1999/XMLSchema</xmlns:xsd><SOAP-ENV:Body><ns1:doGoogleSearch><xmlns:ns1>urn:GoogleSearch</xmlns:ns1><SOAP-ENV:encodingStyle>http://schemas.xmlsoap.org/soap/encoding/</SOAP-ENV:encodingStyle><key><xsi:type>xsd:string</xsi:type>GOOGLEKEY</key><q><xsi:type>xsd:string</xsi:type>'+search+'</q><start><xsi:type>xsd:int</xsi:type>0</start><maxResults><xsi:type>xsd:int</xsi:type>10</maxResults><filter><xsi:type>xsd:boolean</xsi:type>true</filter><restrict><xsi:type>xsd:string</xsi:type></restrict><safeSearch><xsi:type>xsd:boolean</xsi:type>false</safeSearch><lr><xsi:type>xsd:string</xsi:type></lr><ie><xsi:type>xsd:string</xsi:type>latin1</ie><oe><xsi:type>xsd:string</xsi:type>latin1</oe></ns1:doGoogleSearch></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+
+        JsonAssert.assertJsonEquals(c1, j);
+        Assert.assertEquals(c2, XML.toString(j));
+    }
+
+    public void testSoapEnvelope() throws Exception
+    {
+        final JSONObject j = new JSONObject("{Envelope: {Body: {\"ns1:doGoogleSearch\": {oe: \"latin1\", filter: true, q: \"'+search+'\", key: \"GOOGLEKEY\", maxResults: 10, \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\", start: 0, ie: \"latin1\", safeSearch:false, \"xmlns:ns1\": \"urn:GoogleSearch\"}}}}");
+
+        final String c1 = "{\"Envelope\": {\"Body\": {\"ns1:doGoogleSearch\": {\n" +
+        "  \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\",\n" +
+        "  \"filter\": true,\n" +
+        "  \"ie\": \"latin1\",\n" +
+        "  \"key\": \"GOOGLEKEY\",\n" +
+        "  \"maxResults\": 10,\n" +
+        "  \"oe\": \"latin1\",\n" +
+        "  \"q\": \"'+search+'\",\n" +
+        "  \"safeSearch\": false,\n" +
+        "  \"start\": 0,\n" +
+        "  \"xmlns:ns1\": \"urn:GoogleSearch\"\n" +
+        "}}}}";
+        final String c2 = "<Envelope><Body><ns1:doGoogleSearch><oe>latin1</oe><filter>true</filter><q>'+search+'</q><key>GOOGLEKEY</key><maxResults>10</maxResults><SOAP-ENV:encodingStyle>http://schemas.xmlsoap.org/soap/encoding/</SOAP-ENV:encodingStyle><start>0</start><ie>latin1</ie><safeSearch>false</safeSearch><xmlns:ns1>urn:GoogleSearch</xmlns:ns1></ns1:doGoogleSearch></Body></Envelope>";
+
+        Assert.assertEquals(c1, j.toString(2));
+        Assert.assertEquals(c2, XML.toString(j));
+    }
+
+    public void testReadCookies() throws Exception
+    {
+        final JSONObject j = CookieList.toJSONObject("  f%oo = b+l=ah  ; o;n%40e = t.wo ");
+
+        final JSONObject c1 = new JSONObject("{" +
+                "  \"f%oo\": \"b l=ah\"," +
+                "  \"o;n@e\": \"t.wo\"" +
+        "}");
+
+        final String c2 = "f%25oo=b l%3dah;o%3bn@e=t.wo";
+
+        JsonAssert.assertJsonEquals(c1, j);
+        Assert.assertEquals(c2, CookieList.toString(j));
+    }
+
+    public void testExpiresCookie() throws Exception
+    {
+        final JSONObject j = Cookie.toJSONObject("f%oo=blah; secure ;expires = April 24, 2002");
+
+        final JSONObject c1 = new JSONObject("{" +
+                "  \"expires\": \"April 24, 2002\"," +
+                "  \"name\": \"f%oo\"," +
+                "  \"secure\": true," +
+                "  \"value\": \"blah\"" +
+        "}");
+
+        final String c2 = "f%25oo=blah;expires=April 24, 2002;secure";
+
+        JsonAssert.assertJsonEquals(c1, j);
+        Assert.assertEquals(c2, Cookie.toString(j));
+    }
+
+    public void testBackslash() throws Exception
+    {
+
+        final JSONObject j = new JSONObject("{script: 'It is not allowed in HTML to send a close script tag in a string<script>because it confuses browsers</script>so we insert a backslash before the /'}");
+
+        final String c1 = "{\"script\":\"It is not allowed in HTML to send a close script tag in a string<script>because it confuses browsers<\\/script>so we insert a backslash before the /\"}";
+
+        Assert.assertEquals(c1, j.toString());
+    }
+
+    public void testTokenerSession() throws Exception
+    {
+        final JSONTokener jt = new JSONTokener("{op:'test', to:'session', pre:1}{op:'test', to:'session', pre:2}");
+        JSONObject j = new JSONObject(jt);
+
+        Assert.assertEquals("{\"op\":\"test\",\"to\":\"session\",\"pre\":1}", j.toString());
+
+        Assert.assertEquals(1, j.optInt("pre"));
+
+        Assert.assertEquals('{', jt.skipTo('{'));
+
+        j = new JSONObject(jt);
+        Assert.assertEquals("{\"op\":\"test\",\"to\":\"session\",\"pre\":2}", j.toString());
+    }
+
+    public void testCLD() throws Exception
+    {
+        final JSONArray a = CDL.toJSONArray("Comma delimited list test, '\"Strip\"Quotes', 'quote, comma', No quotes, 'Single Quotes', \"Double Quotes\"\n1,'2',\"3\"\n,'It is \"good,\"', \"It works.\"\n\n");
+
+        final String c1 = "Comma delimited list test,\"StripQuotes\",\"quote, comma\"\n" +
+        "1,2,3\n" +
+        ",\"It is good,\",It works.\n";
+
+        final JSONArray c2 = new JSONArray("[" +
+                "    {" +
+                "        \"StripQuotes\": \"2\"," +
+                "        \"Comma delimited list test\": \"1\"," +
+                "        \"quote, comma\": \"3\"" +
+                "    }," +
+                "    {" +
+                "        \"StripQuotes\": \"It is good,\"," +
+                "        \"Comma delimited list test\": \"\"," +
+                "        \"quote, comma\": \"It works.\"" +
+                "    }" +
+        "]");
+
+        final JSONArray c3 = new JSONArray("[" +
+                "    {" +
+                "        \"Comma delimited list test\": \"1\"," +
+                "        \"StripQuotes\": \"2\"," +
+                "        \"quote, comma\": \"3\"" +
+                "    }," +
+                "    {" +
+                "        \"Comma delimited list test\": \"\"," +
+                "        \"StripQuotes\": \"It is good,\"," +
+                "        \"quote, comma\": \"It works.\"" +
+                "    }" +
+        "]");
+
+        final String s = CDL.toString(a);
+        Assert.assertEquals(c1, s);
+        JsonAssert.assertJsonEquals(c2, CDL.toJSONArray(s));
+
+        final JSONArray a2 = CDL.toJSONArray(s);
+        JsonAssert.assertJsonEquals(c3, a2);
+    }
+
+    public void testImpliedNull() throws Exception
+    {
+        final JSONArray a = new JSONArray(" [\"<escape>\", next is an implied null , , ok,] ");
+
+        Assert.assertEquals("[\"<escape>\",\"next is an implied null\",null,\"ok\"]", a.toString());
+        Assert.assertEquals("<array>&lt;escape&gt;</array><array>next is an implied null</array><array>null</array><array>ok</array>", XML.toString(a));
+    }
+
+    public void testNonstandardForm() throws Exception
+    {
+        final JSONObject j = new JSONObject("{ fun => with non-standard forms ; forgiving => This package can be used to parse formats that are similar to but not stricting conforming to JSON; why=To make it easier to migrate existing data to JSON,one = [[1.00]]; uno=[[{1=>1}]];'+':+6e66 ;pluses=+++;empty = '' , 'double':0.666,true: TRUE, false: FALSE, null=NULL;[true] = [[!,@;*]]; string=>  o. k. ; \r oct=0666; hex=0x666; dec=666; o=0999; noh=0x0x}");
+
+        final JSONObject c1 = new JSONObject("{" +
+                "    \"+\": 6.0E66," +
+                "    \"[true]\": [[" +
+                "        \"!\"," +
+                "        \"@\"," +
+                "        \"*\"" +
+                "    ]]," +
+                "    \"dec\": 666," +
+                "    \"double\": 0.666," +
+                "    \"empty\": \"\"," +
+                "    \"false\": false," +
+                "    \"forgiving\": \"This package can be used to parse formats that are similar to but not stricting conforming to JSON\"," +
+                "    \"fun\": \"with non-standard forms\"," +
+                "    \"hex\": 1638," +
+                "    \"noh\": \"0x0x\"," +
+                "    \"null\": null," +
+                "    \"o\": 999," +
+                "    \"oct\": 666," +
+                "    \"one\": [[1]]," +
+                "    \"pluses\": \"+++\"," +
+                "    \"string\": \"o. k.\"," +
+                "    \"true\": true," +
+                "    \"uno\": [[{\"1\": 1}]]," +
+                "    \"why\": \"To make it easier to migrate existing data to JSON\"" +
+        "}");
+
+        JsonAssert.assertJsonEquals(c1, j);
+
+        Assert.assertTrue(j.getBoolean("true"));
+        Assert.assertFalse(j.getBoolean("false"));
+    }
+
+    public void testDHO() throws Exception
+    {
+        JSONObject j = new JSONObject("{ fun => with non-standard forms ; forgiving => This package can be used to parse formats that are similar to but not stricting conforming to JSON; why=To make it easier to migrate existing data to JSON,one = [[1.00]]; uno=[[{1=>1}]];'+':+6e66 ;pluses=+++;empty = '' , 'double':0.666,true: TRUE, false: FALSE, null=NULL;[true] = [[!,@;*]]; string=>  o. k. ; \r oct=0666; hex=0x666; dec=666; o=0999; noh=0x0x}");
+
+        j = new JSONObject(j, new String[]{"dec", "oct", "hex", "missing"});
+
+        JSONObject c1 = new JSONObject("{" +
+                "    \"dec\": 666," +
+                "    \"hex\": 1638," +
+                "    \"oct\": 666" +
+        "}");
+
+        JsonAssert.assertJsonEquals(c1, j);
+    }
+
+    public void testArrayObjectStringer() throws Exception
+    {
+        final JSONArray a = new JSONArray(" [\"<escape>\", next is an implied null , , ok,] ");
+        final JSONObject j = new JSONObject("{" +
+                "    \"dec\": 666," +
+                "    \"hex\": 1638," +
+                "    \"oct\": 666" +
+        "}");
+
+        final JSONWriter jw = new JSONStringer().array().value(a).value(j).endArray();
+
+        final String c1 = "[[\"<escape>\",\"next is an implied null\",null,\"ok\"],{\"dec\":666,\"hex\":1638,\"oct\":666}]";
+
+        Assert.assertEquals(c1, jw.toString());
+    }
+
+    public void testNumberTypes() throws Exception
+    {
+        final JSONObject j = new JSONObject("{string: \"98.6\", long: 2147483648, int: 2147483647, longer: 9223372036854775807, double: 9223372036854775808}");
+
+        final String c1 = "{\n" +
+        "    \"double\": \"9223372036854775808\",\n" +
+        "    \"int\": 2147483647,\n" +
+        "    \"long\": 2147483648,\n" +
+        "    \"longer\": 9223372036854775807,\n" +
+        "    \"string\": \"98.6\"\n" +
+        "}";
+
+        Assert.assertEquals(c1, j.toString(4));
+
+        Assert.assertEquals(2147483647, j.getInt("int"));
+        Assert.assertEquals(-2147483648, j.getInt("long"));
+        Assert.assertEquals(-1, j.getInt("longer"));
+
+        Assert.assertEquals(2147483647, j.getLong("int"));
+        Assert.assertEquals(2147483648L, j.getLong("long"));
+        Assert.assertEquals(9223372036854775807L, j.getLong("longer"));
+
+        Assert.assertEquals(2.147483647E9, j.getDouble("int"), 0.000001);
+        Assert.assertEquals(2.147483648E9, j.getDouble("long"), 0.000001);
+        Assert.assertEquals(9.223372036854776E18, j.getDouble("longer"), 0.000001);
+        Assert.assertEquals(9.223372036854776E18, j.getDouble("double"), 0.000001);
+        Assert.assertEquals(98.6, j.getDouble("string"), 0.000001);
+
+        j.put("good sized", 9223372036854775807L);
+
+        final JSONObject c2 = new JSONObject("{" +
+                "    \"double\": \"9223372036854775808\"," +
+                "    \"good sized\": 9223372036854775807," +
+                "    \"int\": 2147483647," +
+                "    \"long\": 2147483648," +
+                "    \"longer\": 9223372036854775807," +
+                "    \"string\": \"98.6\"" +
+        "}");
+
+        JsonAssert.assertJsonEquals(c2, j);
+    }
+
+    public void testNumberArray() throws Exception
+    {
+        final JSONArray a = new JSONArray("[2147483647, 2147483648, 9223372036854775807, 9223372036854775808]");
+
+
+        final String c1 = "[\n" +
+        "    2147483647,\n" +
+        "    2147483648,\n" +
+        "    9223372036854775807,\n" +
+        "    \"9223372036854775808\"\n" +
+        "]";
+
+        Assert.assertEquals(c1, a.toString(4));
+    }
+
+
+    public void testNumberKeys() throws Exception
+    {
+        final JSONObject j = new JSONObject("{" +
+                "    \"double\": \"9223372036854775808\"," +
+                "    \"good sized\": 9223372036854775807," +
+                "    \"int\": 2147483647," +
+                "    \"long\": 2147483648," +
+                "    \"longer\": 9223372036854775807," +
+                "    \"string\": \"98.6\"" +
+        "}");
+
+        Assert.assertEquals("2147483647", j.getString("int"));
+        Assert.assertEquals("2147483648", j.getString("long"));
+        Assert.assertEquals("9223372036854775807", j.getString("longer"));
+        Assert.assertEquals("9223372036854775808", j.getString("double"));
+        Assert.assertEquals("98.6", j.getString("string"));
+        Assert.assertEquals("9223372036854775807", j.getString("good sized"));
+    }
 
     public void testAccumulate() throws Exception
     {
@@ -1340,54 +1337,54 @@ public class TestSuite
         a.put(5, "Shemp");
 
         final JSONObject c1 = new JSONObject("{\"stooge\": [" +
-                                             "    \"Curly\"," +
-                                             "    \"Larry\"," +
-                                             "    \"Moe\"," +
-                                             "    null," +
-                                             "    null," +
-                                             "    \"Shemp\"" +
-                                             "]}");
+                "    \"Curly\"," +
+                "    \"Larry\"," +
+                "    \"Moe\"," +
+                "    null," +
+                "    null," +
+                "    \"Shemp\"" +
+        "]}");
 
         JsonAssert.assertJsonEquals(c1, j);
-   }
+    }
 
-   public void testWriter() throws Exception
-   {
+    public void testWriter() throws Exception
+    {
 
-       final JSONObject j = new JSONObject("{\"stooge\": [" +
-                                           "    \"Curly\"," +
-                                           "    \"Larry\"," +
-                                           "    \"Moe\"," +
-                                           "    null," +
-                                           "    null," +
-                                           "    \"Shemp\"" +
-                                           "]}");
+        final JSONObject j = new JSONObject("{\"stooge\": [" +
+                "    \"Curly\"," +
+                "    \"Larry\"," +
+                "    \"Moe\"," +
+                "    null," +
+                "    null," +
+                "    \"Shemp\"" +
+        "]}");
 
-       final String c1 = "{\"stooge\":[\"Curly\",\"Larry\",\"Moe\",null,null,\"Shemp\"]}";
+        final String c1 = "{\"stooge\":[\"Curly\",\"Larry\",\"Moe\",null,null,\"Shemp\"]}";
 
-       Assert.assertEquals(c1, j.write(new StringWriter()).toString());
-   }
+        Assert.assertEquals(c1, j.write(new StringWriter()).toString());
+    }
 
     public void testStrangeXmlTag() throws JSONException
     {
-       final String s = "<xml empty><a></a><a>1</a><a>22</a><a>333</a></xml>";
+        final String s = "<xml empty><a></a><a>1</a><a>22</a><a>333</a></xml>";
 
-       final JSONObject j = XML.toJSONObject(s);
+        final JSONObject j = XML.toJSONObject(s);
 
-       final JSONObject c1 = new JSONObject("{\"xml\": {" +
-                                            "    \"a\": [" +
-                                            "        \"\"," +
-                                            "        1," +
-                                            "        22," +
-                                            "        333" +
-                                            "    ]," +
-                                            "    \"empty\": \"\"" +
-                                            "}}");
+        final JSONObject c1 = new JSONObject("{\"xml\": {" +
+                "    \"a\": [" +
+                "        \"\"," +
+                "        1," +
+                "        22," +
+                "        333" +
+                "    ]," +
+                "    \"empty\": \"\"" +
+        "}}");
 
-       final String c2 = "<xml><empty/><a/><a>1</a><a>22</a><a>333</a></xml>";
+        final String c2 = "<xml><empty/><a/><a>1</a><a>22</a><a>333</a></xml>";
 
-       JsonAssert.assertJsonEquals(c1, j);
-       Assert.assertEquals(c2, XML.toString(j));
+        JsonAssert.assertJsonEquals(c1, j);
+        Assert.assertEquals(c2, XML.toString(j));
     }
 
 
@@ -1398,16 +1395,16 @@ public class TestSuite
         final JSONObject j = XML.toJSONObject(s);
 
         final JSONObject c1 = new JSONObject("{\"book\": {\"chapter\": [" +
-                                             "    \"Content of the first chapter\"," +
-                                             "    {" +
-                                             "        \"chapter\": [" +
-                                             "            \"Content of the first subchapter\"," +
-                                             "            \"Content of the second subchapter\"" +
-                                             "        ]," +
-                                             "        \"content\": \"Content of the second chapter\"" +
-                                             "    }," +
-                                             "    \"Third Chapter\"" +
-                                             "]}}");
+                "    \"Content of the first chapter\"," +
+                "    {" +
+                "        \"chapter\": [" +
+                "            \"Content of the first subchapter\"," +
+                "            \"Content of the second subchapter\"" +
+                "        ]," +
+                "        \"content\": \"Content of the second chapter\"" +
+                "    }," +
+                "    \"Third Chapter\"" +
+        "]}}");
 
         final String c2 = "<book><chapter>Content of the first chapter</chapter><chapter>Content of the second chapter<chapter>Content of the first subchapter</chapter><chapter>Content of the second subchapter</chapter></chapter><chapter>Third Chapter</chapter></book>";
 
@@ -1416,87 +1413,87 @@ public class TestSuite
     }
 
 
-   public void testBookChapterJsonML() throws Exception
-   {
-       final String s = "<book><chapter>Content of the first chapter</chapter><chapter>Content of the second chapter      <chapter>Content of the first subchapter</chapter>      <chapter>Content of the second subchapter</chapter></chapter><chapter>Third Chapter</chapter></book>";
+    public void testBookChapterJsonML() throws Exception
+    {
+        final String s = "<book><chapter>Content of the first chapter</chapter><chapter>Content of the second chapter      <chapter>Content of the first subchapter</chapter>      <chapter>Content of the second subchapter</chapter></chapter><chapter>Third Chapter</chapter></book>";
 
-       final JSONArray a = JSONML.toJSONArray(s);
+        final JSONArray a = JSONML.toJSONArray(s);
 
-       final JSONArray c1 = new JSONArray("[" +
-                                          "    \"book\"," +
-                                          "    [" +
-                                          "        \"chapter\"," +
-                                          "        \"Content of the first chapter\"" +
-                                          "    ]," +
-                                          "    [" +
-                                          "        \"chapter\"," +
-                                          "        \"Content of the second chapter\"," +
-                                          "        [" +
-                                          "            \"chapter\"," +
-                                          "            \"Content of the first subchapter\"" +
-                                          "        ]," +
-                                          "        [" +
-                                          "            \"chapter\"," +
-                                          "            \"Content of the second subchapter\"" +
-                                          "        ]" +
-                                          "    ]," +
-                                          "    [" +
-                                          "        \"chapter\"," +
-                                          "        \"Third Chapter\"" +
-                                          "    ]" +
-                                          "]");
+        final JSONArray c1 = new JSONArray("[" +
+                "    \"book\"," +
+                "    [" +
+                "        \"chapter\"," +
+                "        \"Content of the first chapter\"" +
+                "    ]," +
+                "    [" +
+                "        \"chapter\"," +
+                "        \"Content of the second chapter\"," +
+                "        [" +
+                "            \"chapter\"," +
+                "            \"Content of the first subchapter\"" +
+                "        ]," +
+                "        [" +
+                "            \"chapter\"," +
+                "            \"Content of the second subchapter\"" +
+                "        ]" +
+                "    ]," +
+                "    [" +
+                "        \"chapter\"," +
+                "        \"Third Chapter\"" +
+                "    ]" +
+        "]");
 
-       final String c2 = "<book><chapter>Content of the first chapter</chapter><chapter>Content of the second chapter<chapter>Content of the first subchapter</chapter><chapter>Content of the second subchapter</chapter></chapter><chapter>Third Chapter</chapter></book>";
+        final String c2 = "<book><chapter>Content of the first chapter</chapter><chapter>Content of the second chapter<chapter>Content of the first subchapter</chapter><chapter>Content of the second subchapter</chapter></chapter><chapter>Third Chapter</chapter></book>";
 
         JsonAssert.assertJsonEquals(c1, a);
         Assert.assertEquals(c2, JSONML.toString(a));
-   }
+    }
 
-   public void testAccumulateCollections() throws Exception
-   {
-       final Collection<String> c = null;
-       final Map<String, String> m = null;
+    public void testAccumulateCollections() throws Exception
+    {
+        final Collection c = null;
+        final Map m = null;
 
-       final JSONObject j = new JSONObject(m);
-       final JSONArray a = new JSONArray(c);
+        final JSONObject j = new JSONObject(m);
+        final JSONArray a = new JSONArray(c);
 
-       j.append("stooge", "Joe DeRita");
-       j.append("stooge", "Shemp");
-       j.accumulate("stooges", "Curly");
-       j.accumulate("stooges", "Larry");
-       j.accumulate("stooges", "Moe");
-       j.accumulate("stoogearray", j.get("stooges"));
-       j.put("map", m);
-       j.put("collection", c);
-       j.put("array", a);
-       a.put(m);
-       a.put(c);
+        j.append("stooge", "Joe DeRita");
+        j.append("stooge", "Shemp");
+        j.accumulate("stooges", "Curly");
+        j.accumulate("stooges", "Larry");
+        j.accumulate("stooges", "Moe");
+        j.accumulate("stoogearray", j.get("stooges"));
+        j.put("map", m);
+        j.put("collection", c);
+        j.put("array", a);
+        a.put(m);
+        a.put(c);
 
-       final JSONObject c1 = new JSONObject("{" +
-                                            "    \"array\": [" +
-                                            "        {}," +
-                                            "        []" +
-                                            "    ]," +
-                                            "    \"collection\": []," +
-                                            "    \"map\": {}," +
-                                            "    \"stooge\": [" +
-                                            "        \"Joe DeRita\"," +
-                                            "        \"Shemp\"" +
-                                            "    ]," +
-                                            "    \"stoogearray\": [[" +
-                                            "        \"Curly\"," +
-                                            "        \"Larry\"," +
-                                            "        \"Moe\"" +
-                                            "    ]]," +
-                                            "    \"stooges\": [" +
-                                            "        \"Curly\"," +
-                                            "        \"Larry\"," +
-                                            "        \"Moe\"" +
-                                            "    ]" +
-                                            "}");
+        final JSONObject c1 = new JSONObject("{" +
+                "    \"array\": [" +
+                "        {}," +
+                "        []" +
+                "    ]," +
+                "    \"collection\": []," +
+                "    \"map\": {}," +
+                "    \"stooge\": [" +
+                "        \"Joe DeRita\"," +
+                "        \"Shemp\"" +
+                "    ]," +
+                "    \"stoogearray\": [[" +
+                "        \"Curly\"," +
+                "        \"Larry\"," +
+                "        \"Moe\"" +
+                "    ]]," +
+                "    \"stooges\": [" +
+                "        \"Curly\"," +
+                "        \"Larry\"," +
+                "        \"Moe\"" +
+                "    ]" +
+        "}");
 
-       JsonAssert.assertJsonEquals(c1, j);
-   }
+        JsonAssert.assertJsonEquals(c1, j);
+    }
 
     public void testSemicolons() throws Exception
     {
@@ -1505,254 +1502,326 @@ public class TestSuite
         final JSONObject j = new JSONObject(s);
 
         final JSONObject c1 = new JSONObject("{" +
-                                             "    \"AnimalColors\": {" +
-                                             "        \"lamb\": \"black\"," +
-                                             "        \"pig\": \"pink\"," +
-                                             "        \"worm\": \"pink\"" +
-                                             "    }," +
-                                             "    \"AnimalSmells\": {" +
-                                             "        \"lamb\": \"lambish\"," +
-                                             "        \"pig\": \"piggish\"," +
-                                             "        \"worm\": \"wormy\"" +
-                                             "    }," +
-                                             "    \"AnimalSounds\": {" +
-                                             "        \"Lisa\": \"Why is the worm talking like a lamb?\"," +
-                                             "        \"lamb\": \"baa\"," +
-                                             "        \"pig\": \"oink\"," +
-                                             "        \"worm\": \"baa\"" +
-                                             "    }," +
-                                             "    \"plist\": \"Apple\"" +
-                                             "}");
+                "    \"AnimalColors\": {" +
+                "        \"lamb\": \"black\"," +
+                "        \"pig\": \"pink\"," +
+                "        \"worm\": \"pink\"" +
+                "    }," +
+                "    \"AnimalSmells\": {" +
+                "        \"lamb\": \"lambish\"," +
+                "        \"pig\": \"piggish\"," +
+                "        \"worm\": \"wormy\"" +
+                "    }," +
+                "    \"AnimalSounds\": {" +
+                "        \"Lisa\": \"Why is the worm talking like a lamb?\"," +
+                "        \"lamb\": \"baa\"," +
+                "        \"pig\": \"oink\"," +
+                "        \"worm\": \"baa\"" +
+                "    }," +
+                "    \"plist\": \"Apple\"" +
+        "}");
 
         JsonAssert.assertJsonEquals(c1, j);
-   }
+    }
 
-   public void testBraces() throws Exception
-   {
-       final String s = " (\"San Francisco\", \"New York\", \"Seoul\", \"London\", \"Seattle\", \"Shanghai\")";
-       final JSONArray a = new JSONArray(s);
+    public void testBraces() throws Exception
+    {
+        final String s = " (\"San Francisco\", \"New York\", \"Seoul\", \"London\", \"Seattle\", \"Shanghai\")";
+        final JSONArray a = new JSONArray(s);
 
-       final JSONArray c1 = new JSONArray("[\"San Francisco\",\"New York\",\"Seoul\",\"London\",\"Seattle\",\"Shanghai\"]");
+        final JSONArray c1 = new JSONArray("[\"San Francisco\",\"New York\",\"Seoul\",\"London\",\"Seattle\",\"Shanghai\"]");
 
         JsonAssert.assertJsonEquals(c1, a);
-   }
+    }
 
-   public void testXmlSingleTicksObject() throws Exception
-   {
-       final String s = "<a ichi='1' ni='2'><b>The content of b</b> and <c san='3'>The content of c</c><d>do</d><e></e><d>re</d><f/><d>mi</d></a>";
-       final JSONObject j = XML.toJSONObject(s);
-
-
-       final JSONObject c1 = new JSONObject("{\"a\": {" +
-                                            "  \"b\": \"The content of b\"," +
-                                            "  \"c\": {" +
-                                            "    \"content\": \"The content of c\"," +
-                                            "    \"san\": 3" +
-                                            "  }," +
-                                            "  \"content\": \"and\"," +
-                                            "  \"d\": [" +
-                                            "    \"do\"," +
-                                            "    \"re\"," +
-                                            "    \"mi\"" +
-                                            "  ]," +
-                                            "  \"e\": \"\"," +
-                                            "  \"f\": \"\"," +
-                                            "  \"ichi\": 1," +
-                                            "  \"ni\": 2" +
-                                            "}}");
-
-       final String c2 = "<a><ichi>1</ichi><ni>2</ni><b>The content of b</b>and<c><san>3</san>The content of c</c><d>do</d><d>re</d><d>mi</d><e/><f/></a>";
-
-       JsonAssert.assertJsonEquals(c1, j);
-       Assert.assertEquals(c2, XML.toString(j));
-   }
-
-   public void testXmlSingleTicksArray() throws Exception
-   {
-       final String s = "<a ichi='1' ni='2'><b>The content of b</b> and <c san='3'>The content of c</c><d>do</d><e></e><d>re</d><f/><d>mi</d></a>";
-       final JSONArray ja = JSONML.toJSONArray(s);
-
-       final JSONArray c1 = new JSONArray("[" +
-                                          "    \"a\"," +
-                                          "    {" +
-                                          "        \"ichi\": 1," +
-                                          "        \"ni\": 2" +
-                                          "    }," +
-                                          "    [" +
-                                          "        \"b\"," +
-                                          "        \"The content of b\"" +
-                                          "    ]," +
-                                          "    \"and\"," +
-                                          "    [" +
-                                          "        \"c\"," +
-                                          "        {\"san\": 3}," +
-                                          "        \"The content of c\"" +
-                                          "    ]," +
-                                          "    [" +
-                                          "        \"d\"," +
-                                          "        \"do\"" +
-                                          "    ]," +
-                                          "    [\"e\"]," +
-                                          "    [" +
-                                          "        \"d\"," +
-                                          "        \"re\"" +
-                                          "    ]," +
-                                          "    [\"f\"]," +
-                                          "    [" +
-                                          "        \"d\"," +
-                                          "        \"mi\"" +
-                                          "    ]" +
-                                          "]");
-
-       final String c2 = "<a ichi=\"1\" ni=\"2\"><b>The content of b</b>and<c san=\"3\">The content of c</c><d>do</d><e/><d>re</d><f/><d>mi</d></a>";
-
-       JsonAssert.assertJsonEquals(c1, ja);
-       Assert.assertEquals(c2, JSONML.toString(ja));
-   }
-
-   public void testXmlToJsonML() throws Exception
-   {
-       final String s = "<Root><MsgType type=\"node\"><BatchType type=\"string\">111111111111111</BatchType></MsgType></Root>";
-       final JSONObject j = JSONML.toJSONObject(s);
-       final JSONArray ja = JSONML.toJSONArray(s);
-
-       final JSONObject c1 = new JSONObject("{\"tagName\":\"Root\",\"childNodes\":[{\"tagName\":\"MsgType\",\"type\":\"node\",\"childNodes\":[{\"tagName\":\"BatchType\",\"type\":\"string\",\"childNodes\":[111111111111111]}]}]}");
-       final JSONArray c2 = new JSONArray("[\"Root\",[\"MsgType\",{\"type\":\"node\"},[\"BatchType\",{\"type\":\"string\"},111111111111111]]]");
-
-       JsonAssert.assertJsonEquals(c1, j);
-       JsonAssert.assertJsonEquals(c2, ja);
-   }
+    public void testXmlSingleTicksObject() throws Exception
+    {
+        final String s = "<a ichi='1' ni='2'><b>The content of b</b> and <c san='3'>The content of c</c><d>do</d><e></e><d>re</d><f/><d>mi</d></a>";
+        final JSONObject j = XML.toJSONObject(s);
 
 
-    @Test(expectedExceptions = JSONException.class)
+        final JSONObject c1 = new JSONObject("{\"a\": {" +
+                "  \"b\": \"The content of b\"," +
+                "  \"c\": {" +
+                "    \"content\": \"The content of c\"," +
+                "    \"san\": 3" +
+                "  }," +
+                "  \"content\": \"and\"," +
+                "  \"d\": [" +
+                "    \"do\"," +
+                "    \"re\"," +
+                "    \"mi\"" +
+                "  ]," +
+                "  \"e\": \"\"," +
+                "  \"f\": \"\"," +
+                "  \"ichi\": 1," +
+                "  \"ni\": 2" +
+        "}}");
+
+        final String c2 = "<a><ichi>1</ichi><ni>2</ni><b>The content of b</b>and<c><san>3</san>The content of c</c><d>do</d><d>re</d><d>mi</d><e/><f/></a>";
+
+        JsonAssert.assertJsonEquals(c1, j);
+        Assert.assertEquals(c2, XML.toString(j));
+    }
+
+    public void testXmlSingleTicksArray() throws Exception
+    {
+        final String s = "<a ichi='1' ni='2'><b>The content of b</b> and <c san='3'>The content of c</c><d>do</d><e></e><d>re</d><f/><d>mi</d></a>";
+        final JSONArray ja = JSONML.toJSONArray(s);
+
+        final JSONArray c1 = new JSONArray("[" +
+                "    \"a\"," +
+                "    {" +
+                "        \"ichi\": 1," +
+                "        \"ni\": 2" +
+                "    }," +
+                "    [" +
+                "        \"b\"," +
+                "        \"The content of b\"" +
+                "    ]," +
+                "    \"and\"," +
+                "    [" +
+                "        \"c\"," +
+                "        {\"san\": 3}," +
+                "        \"The content of c\"" +
+                "    ]," +
+                "    [" +
+                "        \"d\"," +
+                "        \"do\"" +
+                "    ]," +
+                "    [\"e\"]," +
+                "    [" +
+                "        \"d\"," +
+                "        \"re\"" +
+                "    ]," +
+                "    [\"f\"]," +
+                "    [" +
+                "        \"d\"," +
+                "        \"mi\"" +
+                "    ]" +
+        "]");
+
+        final String c2 = "<a ichi=\"1\" ni=\"2\"><b>The content of b</b>and<c san=\"3\">The content of c</c><d>do</d><e/><d>re</d><f/><d>mi</d></a>";
+
+        JsonAssert.assertJsonEquals(c1, ja);
+        Assert.assertEquals(c2, JSONML.toString(ja));
+    }
+
+    public void testXmlToJsonML() throws Exception
+    {
+        final String s = "<Root><MsgType type=\"node\"><BatchType type=\"string\">111111111111111</BatchType></MsgType></Root>";
+        final JSONObject j = JSONML.toJSONObject(s);
+        final JSONArray ja = JSONML.toJSONArray(s);
+
+        final JSONObject c1 = new JSONObject("{\"tagName\":\"Root\",\"childNodes\":[{\"tagName\":\"MsgType\",\"type\":\"node\",\"childNodes\":[{\"tagName\":\"BatchType\",\"type\":\"string\",\"childNodes\":[111111111111111]}]}]}");
+        final JSONArray c2 = new JSONArray("[\"Root\",[\"MsgType\",{\"type\":\"node\"},[\"BatchType\",{\"type\":\"string\"},111111111111111]]]");
+
+        JsonAssert.assertJsonEquals(c1, j);
+        JsonAssert.assertJsonEquals(c2, ja);
+    }
+
+
     public void testMissingValue() throws Exception
     {
-        new JSONArray("[\n\r\n\r}");
+        try {
+            new JSONArray("[\n\r\n\r}");
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testBadChar() throws Exception
     {
-        new JSONArray("<\n\r\n\r      ");
+        try {
+            new JSONArray("<\n\r\n\r      ");
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testBadNumber() throws Exception
     {
-        final JSONArray a = new JSONArray();
-        a.put(Double.NEGATIVE_INFINITY);
-        a.put(Double.NaN);
+        try {
+            final JSONArray a = new JSONArray();
+            a.put(Double.NEGATIVE_INFINITY);
+            a.put(Double.NaN);
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testMissingField() throws Exception
     {
-        final JSONObject j = new JSONObject();
-        System.out.println(j.getDouble("stooge"));
+        try {
+            final JSONObject j = new JSONObject();
+            System.out.println(j.getDouble("stooge"));
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testNullValue() throws Exception
     {
-        final JSONObject j = new JSONObject();
-        j.put("howard", (Double) null);
-        System.out.println(j.getDouble("howard"));
+        try {
+            final JSONObject j = new JSONObject();
+            j.put("howard", (Double) null);
+            System.out.println(j.getDouble("howard"));
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testNullField() throws Exception
     {
-        final JSONObject j = new JSONObject();
-        System.out.println(j.put(null, "howard"));
+        try {
+            final JSONObject j = new JSONObject();
+            System.out.println(j.put(null, "howard"));
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testMissingFieldArray() throws Exception
     {
-        final JSONArray a = new JSONArray();
-        System.out.println(a.getDouble(0));
+        try {
+            final JSONArray a = new JSONArray();
+            System.out.println(a.getDouble(0));
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testNegativeIndex() throws Exception
     {
-        final JSONArray a = new JSONArray();
-        System.out.println(a.get(-1));
+        try {
+            final JSONArray a = new JSONArray();
+            System.out.println(a.get(-1));
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testInvalidNumber() throws Exception
     {
-        final JSONArray a = new JSONArray();
-        System.out.println(a.put(Double.NaN));
+        try {
+            final JSONArray a = new JSONArray();
+            System.out.println(a.put(Double.NaN));
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testBadXML() throws Exception
     {
-        XML.toJSONObject("<a><b>    ");
+        try {
+            XML.toJSONObject("<a><b>    ");
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testUnmatchedXml() throws Exception
     {
-        XML.toJSONObject("<a></b>    ");
+        try {
+            XML.toJSONObject("<a></b>    ");
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testUnclosedXML() throws Exception
     {
-        XML.toJSONObject("<a></a    ");
+        try {
+            XML.toJSONObject("<a></a    ");
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testBadArrayCtor() throws Exception
     {
-        final JSONArray ja = new JSONArray(new Object());
-        System.out.println(ja.toString());
+        try {
+            final JSONArray ja = new JSONArray(new Object());
+            System.out.println(ja.toString());
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testBadArrayString() throws Exception
     {
-        final String s = "[)";
-        new JSONArray(s);
+        try {
+            final String s = "[)";
+            new JSONArray(s);
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testBadJSONML() throws Exception
     {
-        final String s = "<xml";
-        JSONML.toJSONArray(s);
+        try {
+            final String s = "<xml";
+            JSONML.toJSONArray(s);
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testUnmatchedJSONML() throws Exception
     {
-        final String s = "<right></wrong>";
-        JSONML.toJSONArray(s);
+        try {
+            final String s = "<right></wrong>";
+            JSONML.toJSONArray(s);
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testBadJson() throws Exception
     {
-        final String s = "{\"koda\": true, \"koda\": true}";
-        new JSONObject(s);
+        try {
+            final String s = "{\"koda\": true, \"koda\": true}";
+            new JSONObject(s);
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
-    @Test(expectedExceptions = JSONException.class)
     public void testBadJsonStringer() throws Exception
     {
-        final JSONStringer jj = new JSONStringer();
-        final String s = jj
-        .object()
-        .key("bosanda")
-        .value("MARIE HAA'S")
-        .key("bosanda")
-        .value("MARIE HAA\\'S")
-        .endObject()
-        .toString();
-        System.out.println(s);
+        try {
+            final JSONStringer jj = new JSONStringer();
+            final String s = jj
+            .object()
+            .key("bosanda")
+            .value("MARIE HAA'S")
+            .key("bosanda")
+            .value("MARIE HAA\\'S")
+            .endObject()
+            .toString();
+            System.out.println(s);
+            fail("Expected JSONException!");
+        } catch (Exception e) {
+            Assert.assertEquals(JSONException.class, e.getClass());
+        }
     }
 
 }
