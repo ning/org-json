@@ -219,12 +219,40 @@ public class JSONTokener {
     public char nextClean() throws JSONException {
         for (;;) {
             char c = next();
-            if (c == 0 || c > ' ') {
+            if (c == '/') {
+                switch (next()) {
+                case '/':
+                    do {
+                        c = next();
+                    } while (c != '\n' && c != '\r' && c != 0);
+                    break;
+                case '*':
+                    for (;;) {
+                        c = next();
+                        if (c == 0) {
+                            throw syntaxError("Unclosed comment");
+                        }
+                        if (c == '*') {
+                            if (next() == '/') {
+                                break;
+                            }
+                            back();
+                        }
+                    }
+                    break;
+                default:
+                    back();
+                    return '/';
+                }
+            } else if (c == '#') {
+                do {
+                    c = next();
+                } while (c != '\n' && c != '\r' && c != 0);
+            } else if (c == 0 || c > ' ') {
                 return c;
             }
         }
     }
-
 
     /**
      * Return the characters up to the next close quote character.
