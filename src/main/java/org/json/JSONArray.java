@@ -192,13 +192,17 @@ public class JSONArray {
      */
     public JSONArray(Object array, boolean includeSuperClass) throws JSONException {
         this();
+        if (array instanceof Collection) {
+			Collection<?> collection = (Collection<?>) array;
+			array = collection.toArray();
+		}
         if (array.getClass().isArray()) {
             int length = Array.getLength(array);
             for (int i = 0; i < length; i += 1) {
                 this.put(JSONObject.wrap(Array.get(array, i), includeSuperClass));
             }
         } else {
-            throw new JSONException("JSONArray initial value should be a string or collection or array.");
+            throw new JSONException("JSONArray initial value should be a string or collection or array instead of " + array.getClass());
         }
     }
 
